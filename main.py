@@ -1,20 +1,25 @@
 #Python
 from datetime import date
+from email import message
 from typing import Optional
 from enum import Enum
 
 #Pydantic
 from pydantic import BaseModel
 from pydantic import Field 
-from pydantic import HttpUrl, FilePath
+from pydantic import HttpUrl, FilePath, EmailStr
 
 #FastAPI
 from fastapi import FastAPI
-from fastapi import Body, Query, Path
+from fastapi import Body, Query, Path, Form, Header
 from fastapi import status
+
 app = FastAPI()
 
 # Models
+class LoginOut(BaseModel):
+    message: str = Field(default="Login successfully")
+
 class Marketplace(Enum):
     opensea = "OpenSea"
     rarible = "Rarible"
@@ -85,3 +90,14 @@ def update_project(
     project: Project = Body(...)
     ):
     return project  
+
+@app.post(path="/login", response_model=LoginOut, status_code=status.HTTP_200_OK)
+def login(secret_code: str = Form(...)):
+    return LoginOut()
+
+@app.post(path="/subscribe", status_code=status.HTTP_200_OK)
+def subscribe(
+    email: EmailStr = Form(...), 
+    user_agent: Optional[str] = Header(default=None)
+    ):
+    return user_agent 
