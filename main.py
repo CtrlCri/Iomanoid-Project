@@ -11,7 +11,7 @@ from pydantic import HttpUrl, FilePath
 #FastAPI
 from fastapi import FastAPI
 from fastapi import Body, Query, Path
-
+from fastapi import status
 app = FastAPI()
 
 # Models
@@ -25,7 +25,7 @@ class Blockchain(Enum):
     ethereum = "Ethereum"
     solana = "Solana"
 
-class Project(BaseModel):
+class ProjectBase(BaseModel):
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
     image: FilePath = Field(..., example="C:/Users/Crih/Pictures/iomanoid.png")
     release_date: Optional[date] = Field(default=None) # NFT drop
@@ -45,14 +45,23 @@ class Project(BaseModel):
     source: Optional[HttpUrl] = Field(example="https://www.github.com/armycrih")
     marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
 
+class Project(ProjectBase):
+    
+    secret_code: str = Field(..., example="ARMYCRIHARMYCRIH")
     #tags: list
 
+class ProjectOut(ProjectBase):
+    pass
 
-@app.post("/project/new/")
+@app.get(path="/", status_code=status.HTTP_200_OK)
+def home():
+    return {"Iomanoid": "Génesis"}
+
+@app.post(path="/project/new/", response_model=ProjectOut, status_code=status.HTTP_201_CREATED)
 def create_project(project: Project = Body(...)):
     return project
 
-@app.get("/project/detail/{project_id}")
+@app.get(path="/project/detail/{project_id}", status_code=status.HTTP_200_OK)
 def show_project(
     project_id: int = Path(
         ..., 
@@ -65,7 +74,7 @@ def show_project(
         "Project ID": project_id
         }
 
-@app.put("/project/{project_id}")
+@app.put(path="/project/{project_id}", response_model=ProjectOut, status_code=status.HTTP_202_ACCEPTED)
 def update_project(
     project_id: int = Path(
         ...,
