@@ -1,14 +1,15 @@
-#Python
-from datetime import date
-from typing import Optional
+# Python
+from datetime import date, datetime
+from typing import Optional, List
 from enum import Enum
+from uuid import UUID
 
-#Pydantic
+# Pydantic
 from pydantic import BaseModel
 from pydantic import Field 
 from pydantic import EmailStr, HttpUrl 
 
-#FastAPI
+# FastAPI
 from fastapi import FastAPI
 from fastapi import status
 from fastapi import HTTPException
@@ -17,8 +18,27 @@ from fastapi import Body, Query, Path, Form, Header, Cookie, UploadFile, File
 app = FastAPI()
 
 # Models
-class LoginOut(BaseModel):
-    message: str = Field(default="Login successfully")
+
+class UserBase(BaseModel):
+    user_id: UUID = Field(...)
+    email: EmailStr = Field(...)
+
+class UserLogin(UserBase):
+    password: str = Field(
+        ..., 
+        min_length=8,
+        max_length=64
+    )
+
+class User(UserBase):
+    user_name: str = Field(
+        ...,
+        min_length=5,
+        max_length=20
+    ),
+    created_date: datetime = Field(default=datetime.now())
+    updated_date: Optional[datetime] = Field(default=None)
+    
 
 class Marketplace(Enum):
     opensea = "OpenSea"
@@ -31,6 +51,7 @@ class Blockchain(Enum):
     solana = "Solana"
 
 class ProjectBase(BaseModel):
+    project_id: UUID = Field(...)
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
     #image_file: UploadFile = File(...)
     blockchain: Blockchain = Field(...)
@@ -50,6 +71,9 @@ class ProjectBase(BaseModel):
     source: Optional[HttpUrl] = Field(example="https://www.github.com/armycrih")
     marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
 
+    created_date: datetime = Field(default=datetime.now())
+    updated_date: Optional[datetime] = Field(default=None)
+
 class Project(ProjectBase):
     
     secret_code: str = Field(..., example="ARMYCRIHARMYCRIH")
@@ -58,13 +82,24 @@ class Project(ProjectBase):
 class ProjectOut(ProjectBase):
     pass
 
+# Path Operations
+
+## Users
+
+
+
+## Projects
+
+### Home
 @app.get(
     path="/", 
     status_code=status.HTTP_200_OK,
-    tags=["Tests"]
+    tags=["Home"]
     )
 def home():
     return {"Iomanoid": "Génesis"}
+
+### Register project
 
 @app.post(
     path="/project/new/", 
@@ -87,9 +122,7 @@ def publish_project(project: Project = Body(...)):
     """
     return project
 
-# Validations: Path Parameters
-
-projects = [1, 2, 3, 4, 5]
+### Show a project
 
 @app.get(
     path="/project/detail/{project_id}",
@@ -116,13 +149,9 @@ def show_project(
 
     Returns confirmation of whether the project exists in the database or not
     """
-    if project_id not in projects:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="¡This project doesn't exist!"
-        )
-    return {"Project ID": "It exists!"}
+    pass
 
+### Update a project
 
 @app.put(
     path="/project/{project_id}", 
@@ -141,14 +170,8 @@ def update_project(
     ):
     return project  
 
-@app.post(
-    path="/login", 
-    response_model=LoginOut, 
-    status_code=status.HTTP_200_OK,
-    tags=["Projects"]
-    )
-def login(secret_code: str = Form(...)):
-    return LoginOut()
+## Subscribers
+### 
 
 @app.post(
     path="/subscribe", 
