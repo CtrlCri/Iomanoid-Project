@@ -35,7 +35,7 @@ class User(UserBase):
         ...,
         min_length=5,
         max_length=20
-    ),
+    )
     created_date: datetime = Field(default=datetime.now())
     updated_date: Optional[datetime] = Field(default=None)
     
@@ -84,12 +84,6 @@ class ProjectOut(ProjectBase):
 
 # Path Operations
 
-## Users
-
-
-
-## Projects
-
 ### Home
 @app.get(
     path="/", 
@@ -98,6 +92,76 @@ class ProjectOut(ProjectBase):
     )
 def home():
     return {"Iomanoid": "Génesis"}
+
+## Users
+
+### Register a user
+@app.post(
+    path="/signup",
+    response_model=User,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a User",
+    tags=["Users"]
+)
+def signup(): 
+    pass
+
+### Login a user
+@app.post(
+    path="/login",
+    response_model=User,
+    status_code=status.HTTP_200_OK,
+    summary="Login a User",
+    tags=["Users"]
+)
+def login(): 
+    pass
+
+### Show all users
+@app.get(
+    path="/users",
+    response_model=List[User],
+    status_code=status.HTTP_200_OK,
+    summary="Show all users",
+    tags=["Users"]
+)
+def show_all_users(): 
+    pass
+
+### Show a user
+@app.get(
+    path="/users/{user_id}",
+    response_model=User,
+    status_code=status.HTTP_200_OK,
+    summary="Show a User",
+    tags=["Users"]
+)
+def show_a_user(): 
+    pass
+
+### Delete a user
+@app.delete(
+    path="/users/{user_id}/delete",
+    response_model=User,
+    status_code=status.HTTP_200_OK,
+    summary="Delete a User",
+    tags=["Users"]
+)
+def delete_a_user(): 
+    pass
+
+### Update a user
+@app.put(
+    path="/users/{user_id}/update",
+    response_model=User,
+    status_code=status.HTTP_200_OK,
+    summary="Update a User",
+    tags=["Users"]
+)
+def update_a_user(): 
+    pass
+
+## Projects
 
 ### Register project
 
