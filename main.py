@@ -22,6 +22,13 @@ app = FastAPI()
 class UserBase(BaseModel):
     user_id: UUID = Field(...)
     email: EmailStr = Field(...)
+    user_name: str = Field(
+        ...,
+        min_length=5,
+        max_length=20
+    )
+    created_date: datetime = Field(default=datetime.now())
+    updated_date: Optional[datetime] = Field(default=None) 
 
 class UserLogin(UserBase):
     password: str = Field(
@@ -31,13 +38,7 @@ class UserLogin(UserBase):
     )
 
 class User(UserBase):
-    user_name: str = Field(
-        ...,
-        min_length=5,
-        max_length=20
-    )
-    created_date: datetime = Field(default=datetime.now())
-    updated_date: Optional[datetime] = Field(default=None)
+    pass 
     
 
 class Marketplace(Enum):
@@ -50,12 +51,19 @@ class Blockchain(Enum):
     ethereum = "Ethereum"
     solana = "Solana"
 
-class ProjectBase(BaseModel):
+class Tags(Enum):
+    art = "Art"
+    collectible = "Collectible"
+    dao = "DAO"
+    game = "Game"
+    metaverse = "Metaverse"
+
+class Project(BaseModel):
     project_id: UUID = Field(...)
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
     #image_file: UploadFile = File(...)
     blockchain: Blockchain = Field(...)
-    marketplace: Optional[Marketplace] = Field(default=None)
+    marketplace: Optional[Marketplace] = Field()
     
     collection_size: int = Field(..., gt=0, lt=22223, example=1119)
     description: str = Field(..., max_length=500, min_length=50,
@@ -71,16 +79,29 @@ class ProjectBase(BaseModel):
     source: Optional[HttpUrl] = Field(example="https://www.github.com/armycrih")
     marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
 
+    tags: Optional[Tags] = Field()
     created_date: datetime = Field(default=datetime.now())
     updated_date: Optional[datetime] = Field(default=None)
-
-class Project(ProjectBase):
     
-    secret_code: str = Field(..., example="ARMYCRIHARMYCRIH")
-    #tags: list
+    by: Optional[User] = Field(default=None)
 
-class ProjectOut(ProjectBase):
-    pass
+class SecretCode(BaseModel):
+    code_id: UUID = Field(...)
+    secret_code: str = Field(..., example="ARMYCRIHARMYCRIH")
+    enabled: bool = Field(default=False)
+    
+    project: Optional[Project] = Field(default=None)
+
+class PremiumCode(BaseModel):
+    code_id: UUID = Field(...)
+    premium_code: str = Field(..., example="ARMYCRIHARMYCRIH")
+    enabled: bool = Field(default=False)
+    
+    user: Optional[User] = Field(default=None)
+
+class Subscriber(BaseModel):
+    subscriber_id: UUID = Field(...)
+    email: EmailStr = Field(...)
 
 # Path Operations
 
@@ -167,7 +188,7 @@ def update_a_user():
 
 @app.post(
     path="/project/new/", 
-    response_model=ProjectOut, 
+    response_model=Project, 
     status_code=status.HTTP_201_CREATED,
     tags=["Projects"],
     summary="Publish a project in the app"
@@ -219,7 +240,7 @@ def show_project(
 
 @app.put(
     path="/project/{project_id}", 
-    response_model=ProjectOut, 
+    response_model=Project, 
     status_code=status.HTTP_202_ACCEPTED,
     tags=["Projects"]
     )
