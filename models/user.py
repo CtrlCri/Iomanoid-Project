@@ -1,12 +1,11 @@
 
-from sqlalchemy import INTEGER, VARCHAR, DATETIME, Table, Column
+from sqlalchemy import Integer, String, Table, Column
 from config.db import meta
-
-users = Table(
-    'users', meta,
-    Column('id', INTEGER),
-    Column('email', VARCHAR(50)),
-    Column('user_name', VARCHAR(50),
-    Column('created_at', DATETIME),
-    Column('updated_at', DATETIME)
-)
+#from sqlalchemy import MetaData
+users = Table('users', meta,
+    Column('id', Integer, primary_key=True),
+    Column('email', String(50)),
+    Column('user_name', String(50)),
+    Column('created_at', String),
+    Column('updated_at', String)
+    )
