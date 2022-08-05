@@ -1,5 +1,5 @@
 #Python
-from uuid import UUID
+#from uuid import UUID
 from typing import Optional
 from datetime import datetime
 
@@ -10,13 +10,13 @@ from pydantic import BaseModel, Field, EmailStr
 # Models
 
 class UserBase(BaseModel):
-    user_id: UUID = Field(...)
-    email: EmailStr = Field(...)
+    user_id: int = Field(...)
     user_name: str = Field(
         ...,
         min_length=5,
-        max_length=20
+        max_length=45
     )
+    email: EmailStr = Field(...)
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None) 
 

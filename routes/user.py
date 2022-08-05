@@ -42,15 +42,18 @@ async def read_data(id: int):
 ### Register a user
 @user.post(
     path="/signup",
-    response_model=User,
+    #response_model=User,
     status_code=status.HTTP_201_CREATED,
     summary="Register a User",
     tags=["Users"]
 )
 async def write_data(user: User):
     conn.execute(users.insert().values(
-        name = user.user_name,
-        email = user.email
+        user_id = user.user_id,
+        user_name = user.user_name,
+        email = user.email,
+        created_at = user.created_at,
+        updated_at = user.updated_at
     )) 
     return conn.execute(users.select()).fetchall()
 
