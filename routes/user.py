@@ -11,7 +11,8 @@ from fastapi import Body
 #
 from models.user import users
 from config.db import conn
-from schemas.index import User
+from schemas.index import User, UserUpdate
+
 
 user = APIRouter()
 
@@ -65,8 +66,8 @@ def write_data(user: User = Body(...)):
     summary="Update a User",
     tags=["Users"]
 )
-def update_data(id: int, user: User = Body(...)): 
-    conn.execute( users.insert().values(
+def update_data(id: int, user: UserUpdate = Body(...)): 
+    conn.execute( users.update().values(
         user_name = user.user_name,
         email = user.email
     ).where(users.c.user_id == id)) 

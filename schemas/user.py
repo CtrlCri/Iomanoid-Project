@@ -16,8 +16,13 @@ class UserBase(BaseModel):
         max_length=45
     )
     email: EmailStr = Field(...)
+
+class User(UserBase):
     created_at: datetime = Field(default=datetime.now())
-    updated_at: Optional[datetime] = Field(default=None) 
+    updated_at: Optional[datetime] = Field(default=None)  
+
+class UserUpdate(UserBase):
+    pass 
 
 class UserLogin(UserBase):
     password: str = Field(
@@ -25,7 +30,3 @@ class UserLogin(UserBase):
         min_length=8,
         max_length=64
     )
-
-class User(UserBase):
-    pass 
-    
