@@ -10,7 +10,6 @@ from pydantic import BaseModel, Field, EmailStr
 # Models
 
 class UserBase(BaseModel):
-    user_id: int = Field(...)
     user_name: str = Field(
         ...,
         min_length=5,

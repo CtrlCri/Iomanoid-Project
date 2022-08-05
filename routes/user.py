@@ -6,6 +6,7 @@ from typing import List
 # FastAPI
 from fastapi import APIRouter
 from fastapi import status
+from fastapi import Body
 
 #
 from models.user import users
@@ -25,19 +26,19 @@ user = APIRouter()
     summary="Show all users",
     tags=["Users"]
 )
-async def read_data(): 
+def read_data(): 
     return conn.execute(users.select()).fetchall()
 
 ### Show a user
 @user.get(
     path="/{id}",
-    response_model=User,
+    #response_model=User,
     status_code=status.HTTP_200_OK,
     summary="Show a User",
     tags=["Users"]
 )
-async def read_data(id: int): 
-    return conn.execute(users.select().where(users.c.id == id)).fetchall()
+def read_data(id: int): 
+    return conn.execute(users.select().where(users.c.user_id == id)).fetchall()
 
 ### Register a user
 @user.post(
@@ -47,9 +48,8 @@ async def read_data(id: int):
     summary="Register a User",
     tags=["Users"]
 )
-async def write_data(user: User):
+def write_data(user: User = Body(...)):
     conn.execute(users.insert().values(
-        user_id = user.user_id,
         user_name = user.user_name,
         email = user.email,
         created_at = user.created_at,
@@ -60,28 +60,28 @@ async def write_data(user: User):
 ### Update a user
 @user.put(
     path="/{id}/update",
-    response_model=User,
+    #response_model=User,
     status_code=status.HTTP_200_OK,
     summary="Update a User",
     tags=["Users"]
 )
-async def update_data(id: int, user: User): 
+def update_data(id: int, user: User = Body(...)): 
     conn.execute( users.insert().values(
-        name = user.user_name,
+        user_name = user.user_name,
         email = user.email
-    ).where(users.c.id == id)) 
+    ).where(users.c.user_id == id)) 
     return conn.execute(users.select()).fetchall()
 
 ### Delete a user
 @user.delete(
-    path="/{user_id}/delete",
-    response_model=User,
+    path="/{id}/delete",
+    #response_model=User,
     status_code=status.HTTP_200_OK,
     summary="Delete a User",
     tags=["Users"]
 )
-async def delete_data(): 
-    conn.execute(users.delete().where(users.c.id == id ))
+def delete_data(id: int): 
+    conn.execute(users.delete().where(users.c.user_id == id ))
     return conn.execute(users.select()).fetchall()
 
 ### Login a user
