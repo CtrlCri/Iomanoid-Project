@@ -1,7 +1,5 @@
-# Python from uuid import UUID
+# Python
 from typing import List
-
-# Pydantic from pydantic import HttpUrl
 
 # FastAPI
 from fastapi import APIRouter
@@ -9,10 +7,9 @@ from fastapi import status
 from fastapi import Body, Path
 
 #
-from models.user import users
+from models.index import users
 from config.db import conn
 from schemas.index import User, UserUpdate
-
 
 user = APIRouter()
 
