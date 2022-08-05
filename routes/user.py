@@ -6,7 +6,7 @@ from typing import List
 # FastAPI
 from fastapi import APIRouter
 from fastapi import status
-from fastapi import Body
+from fastapi import Body, Path
 
 #
 from models.user import users
@@ -38,7 +38,7 @@ def read_data():
     summary="Show a User",
     tags=["Users"]
 )
-def read_data(id: int): 
+def read_data(id: int=Path(...)): 
     return conn.execute(users.select().where(users.c.user_id == id)).fetchall()
 
 ### Register a user
@@ -49,7 +49,7 @@ def read_data(id: int):
     summary="Register a User",
     tags=["Users"]
 )
-def write_data(user: User = Body(...)):
+def write_data(user: User=Body(...)):
     conn.execute(users.insert().values(
         user_name = user.user_name,
         email = user.email,
@@ -62,11 +62,11 @@ def write_data(user: User = Body(...)):
 @user.put(
     path="/{id}/update",
     #response_model=User,
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_202_ACCEPTED,
     summary="Update a User",
     tags=["Users"]
 )
-def update_data(id: int, user: UserUpdate = Body(...)): 
+def update_data(id: int=Path(...), user: UserUpdate=Body(...)): 
     conn.execute( users.update().values(
         user_name = user.user_name,
         email = user.email
