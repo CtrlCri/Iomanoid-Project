@@ -31,7 +31,6 @@ class Tags(Enum):
     metaverse = "Metaverse"
 
 class Project(BaseModel):
-    project_id: UUID = Field(...)
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
     #image_file: UploadFile = File(...)
     blockchain: Blockchain = Field(...)
@@ -57,20 +56,5 @@ class Project(BaseModel):
     
     by: Optional[User] = Field(default=None)
 
-class SecretCode(BaseModel):
-    code_id: UUID = Field(...)
-    secret_code: str = Field(..., example="ARMYCRIHARMYCRIH")
-    enabled: bool = Field(default=False)
-    
-    project: Optional[Project] = Field(default=None)
 
-class PremiumCode(BaseModel):
-    code_id: UUID = Field(...)
-    premium_code: str = Field(..., example="ARMYCRIHARMYCRIH")
-    enabled: bool = Field(default=False)
-    
-    user: Optional[User] = Field(default=None)
 
-class Subscriber(BaseModel):
-    subscriber_id: UUID = Field(...)
-    email: EmailStr = Field(...)
