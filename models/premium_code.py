@@ -1,16 +1,17 @@
-
+# Python
 from datetime import datetime
-from uuid import UUID
 
-from sqlalchemy import Table, Column
-from sqlalchemy.sql.sqltypes import DateTime, Integer, String
-from config.db import meta, engine
+# SQLAlchemy
+from sqlalchemy import DateTime, Integer, String, Boolean, Column, ForeignKey
+from sqlalchemy.orm import relationship
 
-premium_codes = Table('premium_codes', meta,
-    Column('code', String(36), primary_key=True),
-    Column('user_id', Integer(), nullable=True),
-    Column('created_at', DateTime, nullable=False, default=datetime.now()),
-    Column('updated_at', DateTime)
-    )
+# Local
+from config.db import Base
 
-meta.create_all(engine)
+class PremiumCode(Base):
+    __tablename__ = "premium_codes"
+
+    code = Column(String(36), primary_key=True)
+    #user_id = Column(Integer(), ForeignKey("users.user_id") nullable=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.now())
+    updated_at = Column(DateTime)

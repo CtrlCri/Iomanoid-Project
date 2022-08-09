@@ -1,14 +1,18 @@
-
+# Python
 from datetime import datetime
 
-from sqlalchemy import DateTime, Integer, String, Table, Column
-from config.db import meta, engine
+# SQLAlchemy
+from sqlalchemy import DateTime, Integer, String, Boolean, Column
+#from sqlalchemy.orm import relationship
 
-subscribers = Table('subscribers', meta,
-    Column('subscriber_id', Integer(), primary_key=True),
-    Column('email', String(45), nullable=False, unique=True),
-    Column('created_at', DateTime, nullable=False, default=datetime.now()),
-    Column('updated_at', DateTime)
-    )
+# Local
+from config.db import Base
 
-meta.create_all(engine)
+class Subscriber(Base):
+    __table__ = "subscribers"
+
+    subscriber_id = Column(Integer(), primary_key=True)
+    email = Column(String(45), nullable=False, unique=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.now())
+    updated_at = Column(DateTime)
+    

@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 
-from routes.index import user, project
+from routes.user import user
+from routes.project import project
+
 
 app = FastAPI()
 

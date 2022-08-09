@@ -2,7 +2,7 @@
 from datetime import datetime
 
 # SQLAlchemy
-from sqlalchemy import DateTime, Integer, String, Boolean, Column, ForeignKey
+from sqlalchemy import DateTime, Integer, String, Boolean, Column
 from sqlalchemy.orm import relationship
 
 # Local
@@ -11,16 +11,16 @@ from config.db import Base
 class User(Base):
     __tablename__ = "users"
     
-    user_id = Column(Integer(), primary_key=True, autoincrement=True),
-    user_name = Column(String(45), nullable=False, unique=True),
-    email = Column(String(45), nullable=False, unique=True),
-    password = Column(String(25)),
-    is_active = Column(Boolean, default=True),
-    created_at = Column(DateTime, nullable=False, default=datetime.now()),
+    user_id = Column(Integer(), primary_key=True, autoincrement=True)
+    user_name = Column(String(45), nullable=False, unique=True)
+    email = Column(String(45), nullable=False, unique=True)
+    password = Column(String(25))
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
 
     projects = relationship("Project", back_populates="owner")
     
-#    __table_args__= {
-#        'mysql_engine':'InnoDB'
-#    }
+  #  __table_args__= {
+  #      'mysql_engine':'InnoDB'
+  #  }

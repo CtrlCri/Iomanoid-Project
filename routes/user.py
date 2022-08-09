@@ -6,10 +6,13 @@ from fastapi import APIRouter
 from fastapi import status
 from fastapi import Body, Path
 
-#
-from models.index import users
-#from config.db import conn
-from schemas.index import User, UserUpdate
+# SQLAlchemy
+from sqlalchemy.orm import Session
+
+# Local
+from config.db import SessionLocal
+from models import user as model_users
+from schemas import user
 
 user = APIRouter()
 
@@ -19,13 +22,13 @@ user = APIRouter()
 ### Show all users
 @user.get(
     path="/",
-    response_model=List[User],
+    #response_model=List[User],
     status_code=status.HTTP_200_OK,
     summary="Show all users",
     tags=["Users"]
 )
-def read_data(): 
-    pass
+def read_data(db: Session): 
+    return db.query(model_users.User).all()
 
 ### Show a user
 @user.get(
@@ -46,13 +49,13 @@ def read_data(id: int=Path(...)):
     summary="Register a User",
     tags=["Users"]
 )
-def write_data(user: User=Body(...)):
-    conn.execute(users.insert().values(
-        user_name = user.user_name,
-        email = user.email,
-        created_at = user.created_at,
-        updated_at = user.updated_at
-    )) 
+def write_data(user: SchemaUser=Body(...)):
+    #conn.execute(users.insert().values(
+    #    user_name = user.user_name,
+    #    email = user.email,
+    #    created_at = user.created_at,
+    #    updated_at = user.updated_at
+    #)) 
     pass
 
 ### Update a user
@@ -64,10 +67,10 @@ def write_data(user: User=Body(...)):
     tags=["Users"]
 )
 def update_data(id: int=Path(...), user: UserUpdate=Body(...)): 
-    conn.execute( users.update().values(
-        user_name = user.user_name,
-        email = user.email
-    ).where(users.c.user_id == id)) 
+    #conn.execute( users.update().values(
+    #    user_name = user.user_name,
+    #    email = user.email
+    #).where(users.c.user_id == id)) 
     pass
 
 ### Delete a user

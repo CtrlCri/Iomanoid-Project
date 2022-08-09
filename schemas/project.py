@@ -7,7 +7,7 @@ from enum import Enum
 from pydantic import BaseModel, Field, EmailStr, HttpUrl
 
 # Local
-from schemas.index import User
+#from schemas.user import User
 
 
 # Models
@@ -53,7 +53,7 @@ class Project(BaseModel):
     created_date: datetime = Field(default=datetime.now())
     updated_date: Optional[datetime] = Field(default=None)
     
-    owner_id: Optional[User] = Field(default=None)
+    #owner_id: Optional[User] = Field(default=None)
 
     class Config:
         orm_mode = True

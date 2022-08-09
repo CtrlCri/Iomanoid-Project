@@ -9,10 +9,10 @@ from fastapi import Body, Path
 
 #
 from models.index import subscribers
-from config.db import conn
+#from config.db import conn
 from schemas.index import Subcriber
 
-user = APIRouter()
+subscriber = APIRouter()
 
 
 ## Subscribers
