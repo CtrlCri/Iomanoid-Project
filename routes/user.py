@@ -8,7 +8,7 @@ from fastapi import Body, Path
 
 #
 from models.index import users
-from config.db import conn
+#from config.db import conn
 from schemas.index import User, UserUpdate
 
 user = APIRouter()
@@ -25,7 +25,7 @@ user = APIRouter()
     tags=["Users"]
 )
 def read_data(): 
-    return conn.execute(users.select()).fetchall()
+    pass
 
 ### Show a user
 @user.get(
@@ -36,7 +36,7 @@ def read_data():
     tags=["Users"]
 )
 def read_data(id: int=Path(...)): 
-    return conn.execute(users.select().where(users.c.user_id == id)).fetchall()
+    pass #conn.execute(users.select().where(users.c.user_id == id)).fetchall()
 
 ### Register a user
 @user.post(
@@ -53,7 +53,7 @@ def write_data(user: User=Body(...)):
         created_at = user.created_at,
         updated_at = user.updated_at
     )) 
-    return conn.execute(users.select()).fetchall()
+    pass
 
 ### Update a user
 @user.put(
@@ -68,7 +68,7 @@ def update_data(id: int=Path(...), user: UserUpdate=Body(...)):
         user_name = user.user_name,
         email = user.email
     ).where(users.c.user_id == id)) 
-    return conn.execute(users.select()).fetchall()
+    pass
 
 ### Delete a user
 @user.delete(
@@ -79,8 +79,8 @@ def update_data(id: int=Path(...), user: UserUpdate=Body(...)):
     tags=["Users"]
 )
 def delete_data(id: int): 
-    conn.execute(users.delete().where(users.c.user_id == id ))
-    return conn.execute(users.select()).fetchall()
+    #conn.execute(users.delete().where(users.c.user_id == id ))
+    pass
 
 ### Login a user
 #@user.post(

@@ -1,17 +1,16 @@
 #Python
-from uuid import UUID
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 from enum import Enum
 
 # Pydantic
-from pydantic import BaseModel, Field
-from pydantic import EmailStr, HttpUrl 
+from pydantic import BaseModel, Field, EmailStr, HttpUrl
 
-# FastAPI
-from fastapi import HTTPException
+# Local
+from schemas.index import User
 
-from schemas.user import User
+
+# Models
 
 class Marketplace(Enum):
     opensea = "OpenSea"
@@ -54,7 +53,10 @@ class Project(BaseModel):
     created_date: datetime = Field(default=datetime.now())
     updated_date: Optional[datetime] = Field(default=None)
     
-    by: Optional[User] = Field(default=None)
+    owner_id: Optional[User] = Field(default=None)
+
+    class Config:
+        orm_mode = True
 
 
 

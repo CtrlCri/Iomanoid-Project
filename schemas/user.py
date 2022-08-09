@@ -1,9 +1,12 @@
 #Python
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 # Pydantic
 from pydantic import BaseModel, Field, EmailStr
+
+# Local
+from schemas.index import Project
 
 
 # Models
@@ -17,8 +20,14 @@ class UserBase(BaseModel):
     email: EmailStr = Field(...)
 
 class User(UserBase):
+    user_id: int
+    is_active: bool = Field(..., default=True)
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)  
+    projects: Optional(List[Project], default=None)
+
+    class Config:
+        orm_mode = True
 
 class UserUpdate(UserBase):
     pass 

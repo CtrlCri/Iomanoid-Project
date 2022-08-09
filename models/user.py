@@ -10,6 +10,7 @@ from config.db import Base
 
 class User(Base):
     __tablename__ = "users"
+    
     user_id = Column(Integer(), primary_key=True, autoincrement=True),
     user_name = Column(String(45), nullable=False, unique=True),
     email = Column(String(45), nullable=False, unique=True),
@@ -20,6 +21,6 @@ class User(Base):
 
     projects = relationship("Project", back_populates="owner")
     
-    __table_args__= {
-        'mysql_engine':'InnoDB'
-    }
+#    __table_args__= {
+#        'mysql_engine':'InnoDB'
+#    }
