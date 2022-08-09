@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 # Local
 from config.db import SessionLocal
 from models.user import User as ModelUser
-from schemas.user import User as SchemaUser
+from schemas.user import User as SchemaUser, UserUpdate
 
 
 

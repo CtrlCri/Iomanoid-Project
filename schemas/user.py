@@ -6,7 +6,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field, EmailStr
 
 # Local
-from schemas.project import Project
+#from project import Project as SchemaProject
 
 
 class UserBase(BaseModel):
@@ -19,11 +19,11 @@ class UserBase(BaseModel):
 
 class User(UserBase):
     user_id: int
-    is_active: bool = Field(..., default=True)
+    #is_active: bool = Field(..., default=True)
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)  
-    #projects: Optional(List[Project], default=None)
-    projects: List[Project] = []
+    
+    #projects: List[SchemaProject] = []
 
     class Config:
         orm_mode = True

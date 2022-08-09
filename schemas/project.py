@@ -7,7 +7,7 @@ from enum import Enum
 from pydantic import BaseModel, Field, EmailStr, HttpUrl
 
 # Local
-from schemas.user import User
+from schemas.user import User as SchemaUser
 
 
 # Models
@@ -38,7 +38,7 @@ class Project(BaseModel):
     
     #collection_size: int = Field(..., gt=0, lt=22223, example=1119)
     description: str = Field(..., max_length=500, min_length=50)
-    owner_id: Optional[User] = Field(default=None)
+    owner_id: Optional[SchemaUser] = Field(default=None)
     #release_date: Optional[datetime] = Field(default=None) # NFT drop
     #instagram: Optional[HttpUrl] = Field(example="https://instagram.com/iomanoid_nfts")
     #twitter: Optional[HttpUrl] = Field(example="https://twitter.com/iomanoid_nfts")
