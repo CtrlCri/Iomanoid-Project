@@ -1,11 +1,15 @@
+# Python
+from datetime import datetime
+from email.policy import default
+from uuid import UUID
 
+
+#Pydantic
+from pydantic import BaseModel, Field
 
 
 
 
 class PremiumCode(BaseModel):
-    code_id: UUID = Field(...)
-    premium_code: str = Field(..., example="ARMYCRIHARMYCRIH")
+    code: UUID = Field(...)
     enabled: bool = Field(default=False)
-    
-    user: Optional[User] = Field(default=None)

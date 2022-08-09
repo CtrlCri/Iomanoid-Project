@@ -1,5 +1,7 @@
 
 from datetime import datetime
+#from enum import Enum
+
 
 from sqlalchemy import Table, Column
 from sqlalchemy.sql.sqltypes import DateTime, Integer, String

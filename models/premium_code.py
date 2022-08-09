@@ -1,5 +1,6 @@
 
 from datetime import datetime
+from uuid import UUID
 
 from sqlalchemy import Table, Column
 from sqlalchemy.sql.sqltypes import DateTime, Integer, String

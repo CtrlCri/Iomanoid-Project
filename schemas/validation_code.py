@@ -1,7 +1,7 @@
 # Python
 from datetime import datetime
 from email.policy import default
-
+from uuid import UUID
 
 
 #Pydantic
