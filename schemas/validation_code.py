@@ -1,8 +1,12 @@
+# Python
+from datetime import datetime
+from email.policy import default
 
+
+
+#Pydantic
+from pydantic import BaseModel, Field
 
 class ValidationCode(BaseModel):
-    code_id: UUID = Field(...)
-    secret_code: str = Field(..., example="ARMYCRIHARMYCRIH")
+    code: UUID = Field(...)
     enabled: bool = Field(default=False)
-    
-    project: Optional[Project] = Field(default=None)
