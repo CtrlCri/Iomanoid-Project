@@ -1,16 +1,22 @@
 
 from datetime import datetime
 
-from sqlalchemy import DateTime, Integer, String, Table, Column
-from config.db import meta, engine
+from sqlalchemy import DateTime, Integer, String, Boolean, Column, ForeignKey
+from sqlalchemy.orm import relationship
+from config.db import Base
 
-users = Table('users', meta,
-    Column('user_id', Integer(),
-        primary_key=True, autoincrement=True),
-    Column('user_name', String(45), nullable=False, unique=True),
-    Column('email', String(45), nullable=False, unique=True),
-    Column('created_at', DateTime, nullable=False, default=datetime.now()),
-    Column('updated_at', DateTime)
-    )
+class User(Base):
+    __tablename__ = "users"
+    user_id = Column(Integer(), primary_key=True, autoincrement=True),
+    user_name = Column(String(45), nullable=False, unique=True),
+    email = Column(String(45), nullable=False, unique=True),
+    password = Column(String(25)),
+    is_active = Column(Boolean, default=True),
+    created_at = Column(DateTime, nullable=False, default=datetime.now()),
+    updated_at = Column(DateTime)
 
-meta.create_all(engine)
+    projects = relationship("Project", back_populates="owner")
+    
+    __table_args__= {
+        'mysql_engine':'InnoDB'
+    }
