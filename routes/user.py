@@ -5,30 +5,38 @@ from typing import List
 from fastapi import APIRouter
 from fastapi import status
 from fastapi import Body, Path
+from fastapi import Depends, HTTPException
 
 # SQLAlchemy
 from sqlalchemy.orm import Session
 
 # Local
 from config.db import SessionLocal
-from models import user as model_users
-from schemas import user
+from models.user import User as ModelUser
+from schemas.user import User as SchemaUser
+
+
 
 user = APIRouter()
 
 
-## Users
+def get_db():
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
 
 ### Show all users
 @user.get(
-    path="/",
-    #response_model=List[User],
+    path="/users/",
+    response_model=List[SchemaUser],
     status_code=status.HTTP_200_OK,
     summary="Show all users",
     tags=["Users"]
 )
-def read_data(db: Session): 
-    return db.query(model_users.User).all()
+def get_users(db: Session=Depends(get_db)): 
+    return db.query(ModelUser).all()
 
 ### Show a user
 @user.get(

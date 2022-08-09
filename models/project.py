@@ -6,14 +6,14 @@ from sqlalchemy import DateTime, Integer, String, Boolean, Column, ForeignKey
 from sqlalchemy.orm import relationship
 
 # Local
-from config.db import Base
+from config.db import Base, engine
 
 class Project(Base):
     __tablename__ = "projects"
     
     project_id = Column(Integer(), primary_key=True, autoincrement=True)
     project_name = Column(String(45), nullable=False, unique=True)
-    descripcion = Column(String(450), nullable=False)
+    description = Column(String(450), nullable=False)
     owner_id = Column(Integer(), ForeignKey("users.user_id"))
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime)
@@ -23,5 +23,5 @@ class Project(Base):
     __table_args__= {
         'mysql_engine':'InnoDB'
     }
-
-
+ 
+Base.metadata.create_all(bind=engine)

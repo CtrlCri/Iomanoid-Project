@@ -6,7 +6,8 @@ from sqlalchemy import DateTime, Integer, String, Boolean, Column
 from sqlalchemy.orm import relationship
 
 # Local
-from config.db import Base
+from config.db import Base, engine
+
 
 class User(Base):
     __tablename__ = "users"
@@ -21,6 +22,8 @@ class User(Base):
 
     projects = relationship("Project", back_populates="owner")
     
-  #  __table_args__= {
-  #      'mysql_engine':'InnoDB'
-  #  }
+    __table_args__= {
+        'mysql_engine':'InnoDB'
+    }
+
+Base.metadata.create_all(bind=engine)
