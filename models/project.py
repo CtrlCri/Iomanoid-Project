@@ -1,23 +1,26 @@
-
+# Python
 from datetime import datetime
-from models.user import users
 
-from sqlalchemy import Table, Column, ForeignKeyConstraint
-from sqlalchemy.sql.sqltypes import DateTime, Integer, String 
-from config.db import meta, engine
+# SQLAlchemy
+from sqlalchemy import DateTime, Integer, String, Boolean, Column, ForeignKey
+from sqlalchemy.orm import relationship
 
+# Local
+from config.db import Base
 
+class Project(Base):
+    __tablename__ = "projects"
+    project_id = Column(Integer(), primary_key=True, autoincrement=True),
+    project_name = Column(String(45), nullable=False, unique=True),
+    descripcion = Column(String(450), nullable=False),
+    owner_id = Column(Integer(), ForeignKey("users.user_id")),
+    created_at = Column(DateTime, default=datetime.now()),
+    updated_at = Column(DateTime)
+    
+    owner = relationship("User", back_populates="projects")
 
-projects = Table('projects', meta,
-    Column('project_id', Integer(), 
-        primary_key=True, autoincrement=True),
-    Column('project_name', String(45), nullable=False, unique=True),
-    Column('descripcion', String(450), nullable=False),
-    #Column('user_id', Integer(), foreign_key=True),
-    Column('created_at', DateTime, default=datetime.now()),
-    Column('updated_at', DateTime)
-    )
-
-meta.create_all(engine)
+    __table_args__= {
+        'mysql_engine':'InnoDB'
+    }
 
 
