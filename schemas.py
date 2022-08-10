@@ -2,16 +2,15 @@
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
+from uuid import UUID
 
 # Pydantic
-from pydantic import BaseModel, Field, EmailStr, HttpUrl
+from pydantic import BaseModel, Field, EmailStr
 
 # Local
-from schemas.user import User as SchemaUser
+#from project import Project as SchemaProject
 
-
-# Models
-
+# Project
 class Marketplace(Enum):
     opensea = "OpenSea"
     rarible = "Rarible"
@@ -38,7 +37,7 @@ class Project(BaseModel):
     
     #collection_size: int = Field(..., gt=0, lt=22223, example=1119)
     description: str = Field(..., max_length=500, min_length=50)
-    owner_id: Optional[SchemaUser] = Field(default=None)
+    owner_id: Optional[int] = Field(default=None)
     #release_date: Optional[datetime] = Field(default=None) # NFT drop
     #instagram: Optional[HttpUrl] = Field(example="https://instagram.com/iomanoid_nfts")
     #twitter: Optional[HttpUrl] = Field(example="https://twitter.com/iomanoid_nfts")
@@ -55,4 +54,48 @@ class Project(BaseModel):
         orm_mode = True
 
 
+# User
+class UserBase(BaseModel):
+    user_id: int
+    user_name: str = Field(
+        ...,
+        min_length=5,
+        max_length=45
+    )
+    email: EmailStr = Field(...)
 
+class User(UserBase):
+    #is_active: bool = Field(..., default=True)
+    created_at: datetime = Field(default=datetime.now())
+    updated_at: Optional[datetime] = Field(default=None)  
+    
+    projects: List[Project] = []
+
+    class Config:
+        orm_mode = True
+
+class UserUpdate(UserBase):
+    pass 
+
+class UserLogin(UserBase):
+    password: str = Field(
+        ..., 
+        min_length=8,
+        max_length=64
+    )
+
+
+# Subscriber
+class Subscriber(BaseModel):
+    email: EmailStr = Field(...)
+    created_at: datetime = Field(default=datetime.now())
+
+# ValidationCode
+class ValidationCode(BaseModel):
+    code: UUID = Field(...)
+    enabled: bool = Field(default=False)
+
+# PremiumCode
+class PremiumCode(BaseModel):
+    code: UUID = Field(...)
+    enabled: bool = Field(default=False)

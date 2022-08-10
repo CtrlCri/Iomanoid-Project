@@ -12,8 +12,8 @@ from sqlalchemy.orm import Session
 
 # Local
 from config.db import SessionLocal
-from models.user import User as ModelUser
-from schemas.user import User as SchemaUser, UserUpdate
+from models import User as ModelUser
+from schemas import User as SchemaUser, UserUpdate
 
 
 
@@ -104,3 +104,5 @@ def delete_data(id: int):
 # def login(): 
 #    pass
 
+## Subscribers
+### 
