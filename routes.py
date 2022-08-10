@@ -13,7 +13,9 @@ from sqlalchemy.orm import Session
 # Local
 from config.db import SessionLocal
 from models import User as ModelUser
+from models import Project as ModelProject
 from schemas import User as SchemaUser, UserUpdate
+from schemas import Project as SchemaProject
 
 
 
@@ -52,19 +54,22 @@ def read_data(id: int=Path(...)):
 ### Register a user
 @user.post(
     path="/signup",
-    #response_model=User,
+    response_model=SchemaUser,
     status_code=status.HTTP_201_CREATED,
     summary="Register a User",
     tags=["Users"]
 )
-def write_data(user: SchemaUser=Body(...)):
-    #conn.execute(users.insert().values(
-    #    user_name = user.user_name,
-    #    email = user.email,
-    #    created_at = user.created_at,
-    #    updated_at = user.updated_at
-    #)) 
-    pass
+def signup(db: Session=Depends(get_db), user: SchemaUser=Body(...)):
+    db_user = ModelUser(
+        user_name = user.user_name,
+        email = user.email,
+        created_at = user.created_at,
+        updated_at = user.updated_at 
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 ### Update a user
 @user.put(
@@ -106,3 +111,23 @@ def delete_data(id: int):
 
 ## Subscribers
 ### 
+
+### Register a project
+@user.post(
+    path="/project/new",
+    response_model=SchemaProject,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a Project",
+    tags=["Projects"]
+)
+def signup(db: Session=Depends(get_db), project: SchemaProject=Body(...)):
+    db_project = ModelProject(
+        project_name = project.project_name,
+        description = project.description,
+        created_at = project.created_at,
+        updated_at = project.updated_at 
+    )
+    db.add(db_project)
+    db.commit()
+    db.refresh(db_project)
+    return db_project

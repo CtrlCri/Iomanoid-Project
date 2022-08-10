@@ -47,8 +47,8 @@ class Project(BaseModel):
     #marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
 
     #tags: Optional[Tags] = Field()
-    created_date: datetime = Field(default=datetime.now())
-    updated_date: Optional[datetime] = Field(default=None)
+    created_at: datetime = Field(default=datetime.now())
+    updated_at: Optional[datetime] = Field(default=None)
 
     class Config:
         orm_mode = True
