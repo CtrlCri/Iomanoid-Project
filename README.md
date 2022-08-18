@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Iomanoid, Multi-Platform NFT Directory (Multi-Marketplace)</h1>
 
-<p align="center"><img src="https://socialify.git.ci/alexcamachogz/quizz-multioption/image?language=1&amp;name=1&amp;owner=1&amp;pattern=Solid&amp;theme=Dark" alt="project-image"></p>
+<p align="center"><img src="https://armycrih.com/wp-content/uploads/2022/06/nft-iomanoid-genesis-collection-opensea-iomiskull-iomimon-1024x1024.png" alt="project-image"></p>
 
 <p id="description">Iomanoid's purpose is to be the most trusted NFT directory in Latin America. We want to increase the visibility of Cryptoart or Digital Art, helping emerging and established artists with tools that allow them, from becoming visible to being able to create their own Web3 community. On the other hand, we want to help collectors to, for example, discover new talents and connect directly with them. But that's not all, we are also going to implement functionalities to Iomanoid that allow its users to learn about the technology behind NFTs and the Crypto ecosystem, Blockchain.</p>
 
