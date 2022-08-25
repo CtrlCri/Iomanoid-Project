@@ -38,18 +38,20 @@ def get_db():
     tags=["Users"]
 )
 def get_users(db: Session=Depends(get_db)): 
-    return db.query(ModelUser).all()
+    users = db.query(ModelUser).all()
+    return users
 
 ### Show a user
 @user.get(
-    path="/{id}",
-    #response_model=User,
+    path="/users/{id}",
+    response_model=SchemaUser,
     status_code=status.HTTP_200_OK,
     summary="Show a User",
     tags=["Users"]
 )
-def read_data(id: int=Path(...)): 
-    pass #conn.execute(users.select().where(users.c.user_id == id)).fetchall()
+def read_data(id: int=Path(...), db: Session=Depends(get_db)): 
+    user = db.query(ModelUser).filter_by(user_id=id).first()
+    return user   #conn.execute(users.select().where(users.c.user_id == id)).fetchall()
 
 ### Register a user
 @user.post(
