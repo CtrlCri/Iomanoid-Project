@@ -1,4 +1,5 @@
 #Python
+from email import message
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
@@ -63,6 +64,11 @@ class UserBase(BaseModel):
         max_length=45
     )
     email: EmailStr = Field(...)
+    password: str = Field(
+        ..., 
+        min_length=8,
+        max_length=64
+    )
 
 class User(UserBase):
     #is_active: bool = Field(..., default=True)
@@ -84,6 +90,8 @@ class UserLogin(UserBase):
         max_length=64
     )
 
+class Reply(BaseModel):
+    message: str
 
 # Subscriber
 class Subscriber(BaseModel):
