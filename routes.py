@@ -14,14 +14,14 @@ from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local
-from config.db import SessionLocal
+from config.db import SessionLocal,Base, engine
 from models import User as ModelUser
 from models import Project as ModelProject
-from schemas import User as SchemaUser, UserUpdate
+from schemas import User as UserSchema, UserUpdate
 from schemas import Project as SchemaProject
 from schemas import Reply as SchemaReply
 
-
+Base.metadata.create_all(bind=engine) 
 
 user = APIRouter()
 
@@ -36,7 +36,7 @@ def get_db():
 ### Show all users
 @user.get(
     path="/users/",
-    response_model=List[SchemaUser],
+    response_model=List[UserSchema],
     status_code=status.HTTP_200_OK,
     summary="Show all users",
     tags=["Users"]
@@ -45,10 +45,36 @@ def get_users(db: Session=Depends(get_db)):
     #users = db.query(ModelUser).all()
     return db.query(ModelUser).all()
 
+### Register a user
+@user.post(
+    path="/users/signup",
+    response_model=UserSchema,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a User",
+    tags=["Users"]
+)
+def signup(db: Session=Depends(get_db), user: UserSchema=Body(...)):
+    hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
+    
+    print(hash_password)
+    
+    new_user = ModelUser(
+        user_name = user.user_name,
+        email = user.email,
+        password = hash_password
+    )
+    #print(new_user)
+    #new_user["password"] = generate_password_hash(user.password, "pbkdf2:sha256:30", 30)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+   
+    return new_user
+
 ### Show a user
 @user.get(
     path="/users/{id}",
-    response_model=SchemaUser,
+    response_model=UserSchema,
     status_code=status.HTTP_200_OK,
     summary="Show a User",
     tags=["Users"]
@@ -57,44 +83,26 @@ def read_data(id: int=Path(...), db: Session=Depends(get_db)):
     user = db.query(ModelUser).filter_by(user_id=id).first()
     return user  
 
-### Register a user
-@user.post(
-    path="/users/signup",
-    response_model=SchemaUser,
-    status_code=status.HTTP_201_CREATED,
-    summary="Register a User",
-    tags=["Users"]
-)
-def signup(db: Session=Depends(get_db), user: SchemaUser=Body(...)):
-    new_user = ModelUser(
-        user_name = user.user_name,
-        email = user.email,
-        password = user.password
-    )
-    #new_user["password"] = generate_password_hash(user.password, "pbkdf2:sha256:10")
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
 
 ### Update a user
 @user.put(
-    path="/{id}/update",
-    #response_model=User,
+    path="/users/{id}",
+    response_model=UserSchema,
     status_code=status.HTTP_202_ACCEPTED,
     summary="Update a User",
     tags=["Users"]
 )
-def update_data(id: int=Path(...), user: UserUpdate=Body(...)): 
-    #conn.execute( users.update().values(
-    #    user_name = user.user_name,
-    #    email = user.email
-    #).where(users.c.user_id == id)) 
-    pass
+def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)): 
+    data_user = db.query(ModelUser).filter_by(user_id=id).first()
+    data_user.user_name = user.user_name,
+    data_user.email = user.email
+    db.commit()
+    db.refresh(data_user)
+    return data_user
 
 ### Delete a user
 @user.delete(
-    path="/{id}/delete",
+    path="/users/{id}",
     response_model=SchemaReply,
     status_code=status.HTTP_200_OK,
     summary="Delete a User",

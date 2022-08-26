@@ -57,18 +57,14 @@ class Project(BaseModel):
 
 # User
 class UserBase(BaseModel):
-    user_id: int
+    user_id: Optional[int]
     user_name: str = Field(
         ...,
         min_length=5,
         max_length=45
     )
     email: EmailStr = Field(...)
-    password: str = Field(
-        ..., 
-        min_length=8,
-        max_length=64
-    )
+    password: str = Field(...)
 
 class User(UserBase):
     #is_active: bool = Field(..., default=True)
@@ -80,15 +76,16 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
-class UserUpdate(UserBase):
-    pass 
+class UserUpdate(BaseModel):
+    user_name: str = Field(
+        ...,
+        min_length=5,
+        max_length=45
+    )
+    email: EmailStr = Field(...)
 
 class UserLogin(UserBase):
-    password: str = Field(
-        ..., 
-        min_length=8,
-        max_length=64
-    )
+    password: str = Field(...)
 
 class Reply(BaseModel):
     message: str

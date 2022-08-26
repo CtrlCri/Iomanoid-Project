@@ -6,7 +6,7 @@ from sqlalchemy import ForeignKey, DateTime, Integer, String, Boolean, Column
 from sqlalchemy.orm import relationship
 
 # Local
-from config.db import Base, engine
+from config.db import Base
 
 
 class User(Base):
@@ -15,7 +15,7 @@ class User(Base):
     user_id = Column(Integer(), primary_key=True, autoincrement=True)
     user_name = Column(String(45), nullable=False, unique=True)
     email = Column(String(45), nullable=False, unique=True)
-    password = Column(String(25))
+    password = Column(String(300))
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
@@ -69,4 +69,4 @@ class PremiumCode(Base):
 
 
 
-Base.metadata.create_all(bind=engine) 
+
