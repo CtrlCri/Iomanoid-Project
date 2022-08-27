@@ -17,7 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
-from schemas import User as UserSchema, UserUpdate
+from schemas import Blockchain, User as UserSchema, UserUpdate
 from schemas import Project as ProjectSchema, ProjectUpdate
 from schemas import Reply as SchemaReply
 
@@ -149,6 +149,7 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
         project_name = project.project_name,
         description = project.description,
         owner_id = project.owner_id,
+        blockchain = project.blockchain,
         created_at = project.created_at,
         updated_at = project.updated_at 
     )

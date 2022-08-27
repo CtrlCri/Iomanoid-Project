@@ -12,15 +12,15 @@ from pydantic import BaseModel, Field, EmailStr
 #from project import Project as SchemaProject
 
 # Project
-class Marketplace(Enum):
-    opensea = "OpenSea"
-    rarible = "Rarible"
-    otro = "Otro"
-
 class Blockchain(Enum):
     polygon = "Polygon"
     ethereum = "Ethereum"
     solana = "Solana"
+
+class Marketplace(Enum):
+    opensea = "OpenSea"
+    rarible = "Rarible"
+    otro = "Otro"
 
 class Tags(Enum):
     art = "Art"
@@ -32,13 +32,15 @@ class Tags(Enum):
 class Project(BaseModel):
     project_id: Optional[int]
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
-    #image_file: UploadFile = File(...)
-    #blockchain: Blockchain = Field(...)
-    #marketplace: Optional[Marketplace] = Field()
     
-    #collection_size: int = Field(..., gt=0, lt=22223, example=1119)
     description: str = Field(..., max_length=500, min_length=50)
     owner_id: Optional[int] = Field(default=None)
+
+    blockchain: Blockchain = Field(...)
+    #marketplace: Optional[Marketplace] = Field()
+    #collection_size: int = Field(..., gt=0, lt=22223, example=1119)
+    #image_file: UploadFile = File(...)
+
     #release_date: Optional[datetime] = Field(default=None) # NFT drop
     #instagram: Optional[HttpUrl] = Field(example="https://instagram.com/iomanoid_nfts")
     #twitter: Optional[HttpUrl] = Field(example="https://twitter.com/iomanoid_nfts")
