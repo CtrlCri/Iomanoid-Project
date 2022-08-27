@@ -43,7 +43,6 @@ def get_db():
     tags=["Users"]
 )
 def get_users(db: Session=Depends(get_db)): 
-    #users = db.query(UserModel).all()
     return db.query(UserModel).all()
 
 ### Register a user
@@ -128,15 +127,14 @@ def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
 
 ### Show all projects
 @project.get(
-    path="/users/",
-    response_model=List[UserSchema],
+    path="/projects/",
+    response_model=List[ProjectSchema],
     status_code=status.HTTP_200_OK,
-    summary="Show all users",
+    summary="Show all projects",
     tags=["Projects"]
 )
 def get_users(db: Session=Depends(get_db)): 
-    #users = db.query(UserModel).all()
-    return db.query(UserModel).all()
+    return db.query(ProjectModel).all()
 
 ### Post a project
 @project.post(
