@@ -18,7 +18,7 @@ from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
 from schemas import User as UserSchema, UserUpdate
-from schemas import Project as SchemaProject
+from schemas import Project as ProjectSchema
 from schemas import Reply as SchemaReply
 
 Base.metadata.create_all(bind=engine) 
@@ -125,25 +125,6 @@ def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
 ## Subscribers
 ### 
 
-### Register a project
-@user.post(
-    path="/project/new",
-    response_model=SchemaProject,
-    status_code=status.HTTP_201_CREATED,
-    summary="Register a Project",
-    tags=["Projects"]
-)
-def signup(db: Session=Depends(get_db), project: SchemaProject=Body(...)):
-    db_project = ProjectModel(
-        project_name = project.project_name,
-        description = project.description,
-        created_at = project.created_at,
-        updated_at = project.updated_at 
-    )
-    db.add(db_project)
-    db.commit()
-    db.refresh(db_project)
-    return db_project
 
 ### Show all projects
 @project.get(
@@ -159,29 +140,24 @@ def get_users(db: Session=Depends(get_db)):
 
 ### Post a project
 @project.post(
-    path="/users/signup",
-    response_model=UserSchema,
+    path="/project/new",
+    response_model=ProjectSchema,
     status_code=status.HTTP_201_CREATED,
-    summary="Register a User",
+    summary="Post a Project",
     tags=["Projects"]
 )
-def post_project(db: Session=Depends(get_db), user: UserSchema=Body(...)):
-    hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
-    
-    print(hash_password)
-    
-    new_user = UserModel(
-        user_name = user.user_name,
-        email = user.email,
-        password = hash_password
+def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
+    new_project = ProjectModel(
+        project_name = project.project_name,
+        description = project.description,
+        created_at = project.created_at,
+        updated_at = project.updated_at 
     )
-    #print(new_user)
-    #new_user["password"] = generate_password_hash(user.password, "pbkdf2:sha256:30", 30)
-    db.add(new_user)
+    db.add(new_project)
     db.commit()
-    db.refresh(new_user)
+    db.refresh(new_project)
    
-    return new_user
+    return new_project
 
 ### Update a project
 @project.put(

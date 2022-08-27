@@ -30,7 +30,7 @@ class Tags(Enum):
     metaverse = "Metaverse"
 
 class Project(BaseModel):
-    project_id: int
+    project_id: Optional[int]
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
     #image_file: UploadFile = File(...)
     #blockchain: Blockchain = Field(...)
