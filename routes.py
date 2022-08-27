@@ -18,7 +18,7 @@ from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
 from schemas import User as UserSchema, UserUpdate
-from schemas import Project as ProjectSchema
+from schemas import Project as ProjectSchema, ProjectUpdate
 from schemas import Reply as SchemaReply
 
 Base.metadata.create_all(bind=engine) 
@@ -160,18 +160,18 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
 ### Update a project
 @project.put(
     path="/projects/{id}",
-    response_model=UserSchema,
+    response_model=ProjectSchema,
     status_code=status.HTTP_202_ACCEPTED,
-    summary="Update a User",
+    summary="Update a Project",
     tags=["Projects"]
 )
-def update_project(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)): 
-    data_user = db.query(UserModel).filter_by(user_id=id).first()
-    data_user.user_name = user.user_name,
-    data_user.email = user.email
+def update_project(db: Session=Depends(get_db), id: int=Path(...), project: ProjectUpdate=Body(...)): 
+    data_project = db.query(ProjectModel).filter_by(project_id=id).first()
+    data_project.project_name = project.project_name,
+    data_project.email = project.description
     db.commit()
-    db.refresh(data_user)
-    return data_user
+    db.refresh(data_project)
+    return data_project
 
 ### Delete a project
 @project.delete(

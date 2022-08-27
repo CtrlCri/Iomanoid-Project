@@ -54,6 +54,9 @@ class Project(BaseModel):
     class Config:
         orm_mode = True
 
+class ProjectUpdate(BaseModel):
+    project_name: str = Field(..., min_length=1, max_length=50)
+    description: str = Field(..., max_length=500, min_length=50)
 
 # User
 class UserBase(BaseModel):
