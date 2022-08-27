@@ -32,7 +32,7 @@ class Project(Base):
     project_id = Column(Integer(), primary_key=True, autoincrement=True)
     project_name = Column(String(45), nullable=False, unique=True)
     description = Column(String(450), nullable=False)
-    owner_id = Column(Integer(), ForeignKey("users.user_id"))
+    owner_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime)
     
