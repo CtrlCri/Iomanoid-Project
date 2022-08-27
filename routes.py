@@ -15,8 +15,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local
 from config.db import SessionLocal,Base, engine
-from models import User as ModelUser
-from models import Project as ModelProject
+from models import User as UserModel
+from models import Project as ProjectModel
 from schemas import User as UserSchema, UserUpdate
 from schemas import Project as SchemaProject
 from schemas import Reply as SchemaReply
@@ -24,6 +24,7 @@ from schemas import Reply as SchemaReply
 Base.metadata.create_all(bind=engine) 
 
 user = APIRouter()
+project = APIRouter()
 
 
 def get_db():
@@ -42,8 +43,8 @@ def get_db():
     tags=["Users"]
 )
 def get_users(db: Session=Depends(get_db)): 
-    #users = db.query(ModelUser).all()
-    return db.query(ModelUser).all()
+    #users = db.query(UserModel).all()
+    return db.query(UserModel).all()
 
 ### Register a user
 @user.post(
@@ -55,16 +56,12 @@ def get_users(db: Session=Depends(get_db)):
 )
 def signup(db: Session=Depends(get_db), user: UserSchema=Body(...)):
     hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
-    
-    print(hash_password)
-    
-    new_user = ModelUser(
+    new_user = UserModel(
         user_name = user.user_name,
         email = user.email,
         password = hash_password
     )
-    #print(new_user)
-    #new_user["password"] = generate_password_hash(user.password, "pbkdf2:sha256:30", 30)
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -80,7 +77,7 @@ def signup(db: Session=Depends(get_db), user: UserSchema=Body(...)):
     tags=["Users"]
 )
 def read_data(id: int=Path(...), db: Session=Depends(get_db)): 
-    user = db.query(ModelUser).filter_by(user_id=id).first()
+    user = db.query(UserModel).filter_by(user_id=id).first()
     return user  
 
 
@@ -93,7 +90,7 @@ def read_data(id: int=Path(...), db: Session=Depends(get_db)):
     tags=["Users"]
 )
 def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)): 
-    data_user = db.query(ModelUser).filter_by(user_id=id).first()
+    data_user = db.query(UserModel).filter_by(user_id=id).first()
     data_user.user_name = user.user_name,
     data_user.email = user.email
     db.commit()
@@ -109,7 +106,7 @@ def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate
     tags=["Users"]
 )   
 def delete_user(id: int=Path(...), db: Session=Depends(get_db)): 
-    user = db.query(ModelUser).filter_by(user_id=id).first()
+    user = db.query(UserModel).filter_by(user_id=id).first()
     db.delete(user)
     db.commit()
     message = SchemaReply(message="Successeful deleted")
@@ -137,7 +134,7 @@ def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
     tags=["Projects"]
 )
 def signup(db: Session=Depends(get_db), project: SchemaProject=Body(...)):
-    db_project = ModelProject(
+    db_project = ProjectModel(
         project_name = project.project_name,
         description = project.description,
         created_at = project.created_at,
@@ -147,3 +144,72 @@ def signup(db: Session=Depends(get_db), project: SchemaProject=Body(...)):
     db.commit()
     db.refresh(db_project)
     return db_project
+
+### Show all projects
+@project.get(
+    path="/users/",
+    response_model=List[UserSchema],
+    status_code=status.HTTP_200_OK,
+    summary="Show all users",
+    tags=["Projects"]
+)
+def get_users(db: Session=Depends(get_db)): 
+    #users = db.query(UserModel).all()
+    return db.query(UserModel).all()
+
+### Post a project
+@project.post(
+    path="/users/signup",
+    response_model=UserSchema,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a User",
+    tags=["Projects"]
+)
+def post_project(db: Session=Depends(get_db), user: UserSchema=Body(...)):
+    hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
+    
+    print(hash_password)
+    
+    new_user = UserModel(
+        user_name = user.user_name,
+        email = user.email,
+        password = hash_password
+    )
+    #print(new_user)
+    #new_user["password"] = generate_password_hash(user.password, "pbkdf2:sha256:30", 30)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+   
+    return new_user
+
+### Update a project
+@project.put(
+    path="/projects/{id}",
+    response_model=UserSchema,
+    status_code=status.HTTP_202_ACCEPTED,
+    summary="Update a User",
+    tags=["Projects"]
+)
+def update_project(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)): 
+    data_user = db.query(UserModel).filter_by(user_id=id).first()
+    data_user.user_name = user.user_name,
+    data_user.email = user.email
+    db.commit()
+    db.refresh(data_user)
+    return data_user
+
+### Delete a project
+@project.delete(
+    path="/projects/{id}",
+    response_model=SchemaReply,
+    status_code=status.HTTP_200_OK,
+    summary="Delete a Project",
+    tags=["Projects"]
+)   
+def delete_project(id: int=Path(...), db: Session=Depends(get_db)): 
+    user = db.query(UserModel).filter_by(user_id=id).first()
+    db.delete(user)
+    db.commit()
+    message = SchemaReply(message="Successeful deleted")
+    return message
