@@ -182,8 +182,8 @@ def update_project(db: Session=Depends(get_db), id: int=Path(...), project: Proj
     tags=["Projects"]
 )   
 def delete_project(id: int=Path(...), db: Session=Depends(get_db)): 
-    user = db.query(UserModel).filter_by(user_id=id).first()
-    db.delete(user)
+    project = db.query(ProjectModel).filter_by(project_id=id).first()
+    db.delete(project)
     db.commit()
     message = SchemaReply(message="Successeful deleted")
     return message
