@@ -13,9 +13,9 @@ from pydantic import BaseModel, Field, EmailStr
 
 # Project
 class Blockchain(Enum):
-    polygon = "Polygon"
-    ethereum = "Ethereum"
-    solana = "Solana"
+    one = "polygon"
+    two = "ethereum"
+    three = "solana"
 
 class Marketplace(Enum):
     opensea = "OpenSea"
@@ -36,7 +36,7 @@ class Project(BaseModel):
     description: str = Field(..., max_length=500, min_length=50)
     owner_id: Optional[int] = Field(default=None)
 
-    blockchain: Blockchain = Field(...)
+    blockchain: Blockchain = Field(..., example= "polygon")
     #marketplace: Optional[Marketplace] = Field()
     #collection_size: int = Field(..., gt=0, lt=22223, example=1119)
     #image_file: UploadFile = File(...)
