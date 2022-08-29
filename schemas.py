@@ -40,10 +40,10 @@ class Project(BaseModel):
 
     blockchain: Blockchain = Field(..., example="Polygon")
     marketplace: Marketplace = Field(..., example="OpenSea")
-    #collection_size: int = Field(..., gt=0, lt=22223, example=1119)
+    collection_size: int = Field(..., gt=0, lt=22223, example=1119)
     #image_file: UploadFile = File(...)
 
-    #release_date: Optional[datetime] = Field(default=None) # NFT drop
+    release_date: Optional[datetime] = Field(default=None) # NFT drop
     #instagram: Optional[HttpUrl] = Field(example="https://instagram.com/iomanoid_nfts")
     #twitter: Optional[HttpUrl] = Field(example="https://twitter.com/iomanoid_nfts")
     #discord: Optional[HttpUrl] = Field(example="https://discord.com/")

@@ -151,6 +151,8 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
         owner_id = project.owner_id,
         blockchain = project.blockchain.value,
         marketplace = project.marketplace.value,
+        collection_size= project.collection_size,
+        release_date = project.release_date,
         created_at = project.created_at,
         updated_at = project.updated_at 
     )
