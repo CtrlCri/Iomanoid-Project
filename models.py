@@ -38,11 +38,12 @@ class Project(Base):
 
     blockchain = Column(Enum('Polygon', 'Ethereum', 'Solana', 'Otro'))
     marketplace = Column(Enum('OpenSea', 'Rarible', 'Otro', 'En proceso'))
+    marketplace_url = Column(String(300), nullable=True)
     collection_size = Column(Integer(), nullable=False)
-    release_date = Column(DateTime) 
+    release_date = Column(DateTime, nullable=True) 
     
     created_at = Column(DateTime, default=datetime.now())
-    updated_at = Column(DateTime)
+    updated_at = Column(DateTime, nullable=True) 
     
     owner = relationship("User", back_populates="projects")
 

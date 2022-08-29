@@ -6,7 +6,7 @@ from enum import Enum
 from uuid import UUID
 
 # Pydantic
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, HttpUrl
 
 # Local
 #from project import Project as SchemaProject
@@ -40,7 +40,9 @@ class Project(BaseModel):
 
     blockchain: Blockchain = Field(..., example="Polygon")
     marketplace: Marketplace = Field(..., example="OpenSea")
+    marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
     collection_size: int = Field(..., gt=0, lt=22223, example=1119)
+
     #image_file: UploadFile = File(...)
 
     release_date: Optional[datetime] = Field(default=None) # NFT drop
@@ -49,7 +51,7 @@ class Project(BaseModel):
     #discord: Optional[HttpUrl] = Field(example="https://discord.com/")
     #website: Optional[HttpUrl] = Field(example="https://iomanoids.com")
     #source: Optional[HttpUrl] = Field(example="https://www.github.com/armycrih")
-    #marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
+    
 
     #tags: Optional[Tags] = Field()
     created_at: datetime = Field(default=datetime.now())
