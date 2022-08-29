@@ -1,4 +1,5 @@
 #Python
+from asyncio.windows_events import NULL
 from email import message
 from typing import Optional, List
 from datetime import datetime
@@ -40,17 +41,17 @@ class Project(BaseModel):
 
     blockchain: Blockchain = Field(..., example="Polygon")
     marketplace: Marketplace = Field(..., example="OpenSea")
-    marketplace_url: Optional[HttpUrl] = Field(example="https://www.opensea.com/collection/iomanoid-genesis")
+    marketplace_url: Optional[HttpUrl] = Field(default=None ,example="https://www.opensea.com/collection/iomanoid-genesis")
     collection_size: int = Field(..., gt=0, lt=22223, example=1119)
 
     #image_file: UploadFile = File(...)
-
     release_date: Optional[datetime] = Field(default=None) # NFT drop
-    #instagram: Optional[HttpUrl] = Field(example="https://instagram.com/iomanoid_nfts")
-    #twitter: Optional[HttpUrl] = Field(example="https://twitter.com/iomanoid_nfts")
-    #discord: Optional[HttpUrl] = Field(example="https://discord.com/")
-    #website: Optional[HttpUrl] = Field(example="https://iomanoids.com")
-    #source: Optional[HttpUrl] = Field(example="https://www.github.com/armycrih")
+    
+    instagram: Optional[HttpUrl] = Field(default=None ,example="https://instagram.com/iomanoid_nfts")
+    twitter: Optional[HttpUrl] = Field(default=None ,example="https://twitter.com/iomanoid_nfts")
+    discord: Optional[HttpUrl] = Field(default=None ,example="https://discord.com/")
+    website: Optional[HttpUrl] = Field(default=None ,example="https://iomanoids.com")
+    source: Optional[HttpUrl] = Field(default=None ,example="https://www.github.com/armycrih")
     
 
     #tags: Optional[Tags] = Field()

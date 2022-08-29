@@ -42,6 +42,12 @@ class Project(Base):
     collection_size = Column(Integer(), nullable=False)
     release_date = Column(DateTime, nullable=True) 
     
+    instagram = Column(String(70), nullable=True)
+    twitter = Column(String(70), nullable=True)
+    discord = Column(String(70), nullable=True)
+    website = Column(String(70), nullable=True)
+    source = Column(String(70), nullable=True)
+
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, nullable=True) 
     
