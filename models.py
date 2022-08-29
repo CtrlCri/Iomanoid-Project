@@ -1,9 +1,8 @@
 # Python
 from datetime import datetime
-#from enum import Enum
 
 # SQLAlchemy
-from sqlalchemy import ForeignKey, DateTime, Integer, String, Boolean, Column, Enum as alchEnum
+from sqlalchemy import ForeignKey, DateTime, Integer, String, Boolean, Column, Enum
 from sqlalchemy.orm import relationship
 
 # Local
@@ -27,10 +26,7 @@ class User(Base):
         'mysql_engine':'InnoDB'
     }
 
-#class Blockchain(Enum):
-#    one = "polygon"
-#    two = "ethereum"
-#    three = "solana"
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -39,8 +35,8 @@ class Project(Base):
     project_name = Column(String(45), nullable=False, unique=True)
     description = Column(String(450), nullable=False)
 
-    blockchain = Column(alchEnum('polygon', 'ethereum', 'solana'))
-
+    blockchain = Column(Enum('Polygon', 'Ethereum', 'Solana', 'Otro'))
+    marketplace = Column(Enum('OpenSea', 'Rarible', 'Otro', 'En proceso'))
     owner_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime)
