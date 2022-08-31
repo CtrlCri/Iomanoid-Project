@@ -1,6 +1,4 @@
 #Python
-from asyncio.windows_events import NULL
-from email import message
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
@@ -10,7 +8,7 @@ from uuid import UUID
 from pydantic import BaseModel, Field, EmailStr, HttpUrl
 
 # Local
-#from project import Project as SchemaProject
+from fastapi import UploadFile, File
 
 # Project
 class Blockchain(Enum):
@@ -44,7 +42,7 @@ class Project(BaseModel):
     marketplace_url: Optional[HttpUrl] = Field(default=None ,example="https://www.opensea.com/collection/iomanoid-genesis")
     collection_size: int = Field(..., gt=0, lt=22223, example=1119)
 
-    #image_file: UploadFile = File(...)
+    #image_file: Optional[UploadFile] = File(default=None)
     release_date: Optional[datetime] = Field(default=None) # NFT drop
     
     instagram: Optional[HttpUrl] = Field(default=None ,example="https://instagram.com/iomanoid_nfts")

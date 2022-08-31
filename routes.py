@@ -152,13 +152,14 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
         blockchain = project.blockchain.value,
         marketplace = project.marketplace.value,
         marketplace_url = project.marketplace_url,
+        collection_size= project.collection_size,
+        #image_file = project.image_file.filename,
+        release_date = project.release_date,
         instagram = project.instagram,
         twitter = project.twitter,
         discord = project.discord,
         website = project.website,
         source = project.source,
-        collection_size= project.collection_size,
-        release_date = project.release_date,
         created_at = project.created_at,
         updated_at = project.updated_at 
     )

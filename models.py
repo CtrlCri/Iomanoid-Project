@@ -40,6 +40,8 @@ class Project(Base):
     marketplace = Column(Enum('OpenSea', 'Rarible', 'Otro', 'En proceso'))
     marketplace_url = Column(String(300), nullable=True)
     collection_size = Column(Integer(), nullable=False)
+
+    #image_file = Column(String(70), nullable=True)
     release_date = Column(DateTime, nullable=True) 
     
     instagram = Column(String(70), nullable=True)
