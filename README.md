@@ -21,6 +21,7 @@ Technologies used in the project:
 
 *   Python
 *   FastAPI
+*   SQL-Alchemy
 *   MySQL
 
 ### Iomanoid structure
@@ -33,7 +34,7 @@ class User(Base):
     user_id = Column(Integer(), primary_key=True, autoincrement=True)
     user_name = Column(String(45), nullable=False, unique=True)
     email = Column(String(45), nullable=False, unique=True)
-    password = Column(String(25))
+    password = Column(String(300))
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
@@ -43,6 +44,7 @@ class User(Base):
     __table_args__= {
         'mysql_engine':'InnoDB'
     }
+
 ```
 
 ``` Swift
@@ -53,15 +55,29 @@ class Project(Base):
     project_id = Column(Integer(), primary_key=True, autoincrement=True)
     project_name = Column(String(45), nullable=False, unique=True)
     description = Column(String(450), nullable=False)
-    owner_id = Column(Integer(), ForeignKey("users.user_id"))
+    owner_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
+
+    blockchain = Column(Enum('Polygon', 'Ethereum', 'Solana', 'Otro'))
+    marketplace = Column(Enum('OpenSea', 'Rarible', 'Otro', 'En proceso'))
+    marketplace_url = Column(String(300), nullable=True)
+    collection_size = Column(Integer(), nullable=False)
+    release_date = Column(DateTime, nullable=True) 
+    
+    instagram = Column(String(70), nullable=True)
+    twitter = Column(String(70), nullable=True)
+    discord = Column(String(70), nullable=True)
+    website = Column(String(70), nullable=True)
+    source = Column(String(70), nullable=True)
+
     created_at = Column(DateTime, default=datetime.now())
-    updated_at = Column(DateTime)
+    updated_at = Column(DateTime, nullable=True) 
     
     owner = relationship("User", back_populates="projects")
 
     __table_args__= {
         'mysql_engine':'InnoDB'
     }
+
 ```
 
 ## License:
