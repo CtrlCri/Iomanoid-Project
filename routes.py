@@ -1,11 +1,14 @@
 # Python
+from tkinter import Image
 from typing import List
+from os import getcwd # for images
 
 # FastAPI
 from fastapi import APIRouter
 from fastapi import status
 from fastapi import Body, Path
 from fastapi import Depends, HTTPException
+from fastapi import File, UploadFile, BackgroundTasks
 
 # SQLAlchemy
 from sqlalchemy.orm import Session
@@ -168,6 +171,23 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
     db.refresh(new_project)
    
     return new_project
+
+PATH_IMAGES = getcwd() + "/images/"
+
+
+
+@project.post(
+    path="/project/image",
+
+)
+async def preject_image(backgraund_task: BackgroundTasks, image: UploadFile = File(...)):
+    # SAVE FILE ORIGINAL
+    with open( PATH_IMAGES + image.filename, "wb") as myfile:
+        content = await image.read()
+        myfile.write(content)
+        myfile.close()
+    
+    backgraund_task.add_task()
 
 ### Update a project
 @project.put(
