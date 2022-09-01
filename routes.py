@@ -1,5 +1,4 @@
 # Python
-from tkinter import Image
 from typing import List
 from os import getcwd # for images
 
@@ -9,12 +8,14 @@ from fastapi import status
 from fastapi import Body, Path
 from fastapi import Depends, HTTPException
 from fastapi import File, UploadFile, BackgroundTasks
+from fastapi.responses import JSONResponse
 
 # SQLAlchemy
 from sqlalchemy.orm import Session
 
 #
 from werkzeug.security import generate_password_hash, check_password_hash
+from PIL import Image
 
 # Local
 from config.db import SessionLocal,Base, engine
@@ -156,7 +157,6 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
         marketplace = project.marketplace.value,
         marketplace_url = project.marketplace_url,
         collection_size= project.collection_size,
-        #image_file = project.image_file.filename,
         release_date = project.release_date,
         instagram = project.instagram,
         twitter = project.twitter,
@@ -174,20 +174,34 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
 
 PATH_IMAGES = getcwd() + "/images/"
 
-
+def resize_image(filename: str):
+    sizes = [
+        {"width": 1280, "heigth": 720},
+        {"width": 640, "heigth": 480}
+    ]
+    for size in sizes:
+        size_defined = size["width"], size["heigth"]
+        image = Image.open(PATH_IMAGES + filename, mode="r")
+        image.thumbnail(size_defined)
+        image.save(PATH_IMAGES + str(size["heigth"]) + "_" + filename)
+    print("success")
 
 @project.post(
     path="/project/image",
-
+    status_code=status.HTTP_200_OK,
+    summary="Upload a Project Image",
+    tags=["Projects"]
 )
-async def preject_image(backgraund_task: BackgroundTasks, image: UploadFile = File(...)):
+async def project_image(backgraund_task: BackgroundTasks, image: UploadFile = File(...)):
     # SAVE FILE ORIGINAL
     with open( PATH_IMAGES + image.filename, "wb") as myfile:
         content = await image.read()
         myfile.write(content)
         myfile.close()
     
-    backgraund_task.add_task()
+    # RESIZE IMAGES
+    backgraund_task.add_task(resize_image, filename=image.filename)
+    return JSONResponse(content={"message": "success"})
 
 ### Update a project
 @project.put(
