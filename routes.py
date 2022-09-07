@@ -21,7 +21,7 @@ from PIL import Image
 from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
-from schemas import Blockchain, User as UserSchema, UserUpdate
+from schemas import Blockchain, User as UserSchema, SignUp, UserUpdate
 from schemas import Project as ProjectSchema, ProjectUpdate
 from schemas import Reply as SchemaReply
 
@@ -57,7 +57,7 @@ def get_users(db: Session=Depends(get_db)):
     summary="Register a User",
     tags=["Users"]
 )
-def signup(db: Session=Depends(get_db), user: UserSchema=Body(...)):
+def signup(db: Session=Depends(get_db), user: SignUp=Body(...)):
     hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
     new_user = UserModel(
         user_name = user.user_name,

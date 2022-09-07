@@ -75,7 +75,7 @@ class UserBase(BaseModel):
     password: str = Field(...)
 
 class User(UserBase):
-    #is_active: bool = Field(..., default=True)
+    is_active: bool = Field(...) 
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)  
     
@@ -83,6 +83,15 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class SignUp(BaseModel):
+    user_name: str = Field(
+        ...,
+        min_length=5,
+        max_length=45
+    )
+    email: EmailStr = Field(...)
+    password: str = Field(...)
 
 class UserUpdate(BaseModel):
     user_name: str = Field(
