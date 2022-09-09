@@ -62,10 +62,16 @@ class Project(Base):
 class Subscriber(Base):
     __tablename__ = "subscribers"
 
-    subscriber_id = Column(Integer(), primary_key=True)
+    id = Column(Integer(), primary_key=True, autoincrement=True)
     email = Column(String(45), nullable=False, unique=True)
-    created_at = Column(DateTime, default=datetime.now())
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
+
+    __table_args__= {
+        'mysql_engine':'InnoDB'
+    }
+
     
 class ValidationCode(Base):
     __tablename__ = "validation_codes"
@@ -75,6 +81,10 @@ class ValidationCode(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
 
+    __table_args__= {
+        'mysql_engine':'InnoDB'
+    }
+
 class PremiumCode(Base):
     __tablename__ = "premium_codes"
 
@@ -82,6 +92,10 @@ class PremiumCode(Base):
     #user_id = Column(Integer(), ForeignKey("users.user_id") nullable=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
+
+    __table_args__= {
+        'mysql_engine':'InnoDB'
+    }
 
 
 

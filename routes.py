@@ -21,14 +21,17 @@ from PIL import Image
 from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
-from schemas import Blockchain, User as UserSchema, SignUp, UserUpdate
+from models import Subscriber as SubscriberModel
+from schemas import User as UserSchema, SignUp, UserUpdate
 from schemas import Project as ProjectSchema, ProjectUpdate
+from schemas import Subscriber as SubscriberSchema
 from schemas import Reply as SchemaReply
 
 Base.metadata.create_all(bind=engine) 
 
 user = APIRouter()
 project = APIRouter()
+subscriber = APIRouter()
 
 
 def get_db():
@@ -37,6 +40,10 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# Path Operations
+
+## Users
 
 ### Show all users
 @user.get(
@@ -125,9 +132,9 @@ def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
 # def login(): 
 #    pass
 
-## Subscribers
-### 
 
+
+## Projects
 
 ### Show all projects
 @project.get(
@@ -233,3 +240,24 @@ def delete_project(id: int=Path(...), db: Session=Depends(get_db)):
     db.commit()
     message = SchemaReply(message="Successeful deleted")
     return message
+
+## Subscribers
+ 
+### Register a subcriber
+@subscriber.post(
+    path="/subscribers/signup",
+    response_model=SubscriberSchema,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a Subscriber",
+    tags=["Subscribers"]
+)
+def subscribers_signup(db: Session=Depends(get_db), subscriber: SubscriberSchema=Body(...)):
+    new_subscriber = SubscriberModel(
+        email = subscriber.email
+    )
+
+    db.add(new_subscriber)
+    db.commit()
+    db.refresh(new_subscriber)
+   
+    return new_subscriber

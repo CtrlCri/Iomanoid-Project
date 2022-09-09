@@ -107,10 +107,11 @@ class UserLogin(UserBase):
 class Reply(BaseModel):
     message: str
 
-# Subscriber
 class Subscriber(BaseModel):
     email: EmailStr = Field(...)
-    created_at: datetime = Field(default=datetime.now())
+    
+    class Config:
+        orm_mode = True
 
 # ValidationCode
 class ValidationCode(BaseModel):
