@@ -2,7 +2,7 @@
 
 <p align="center"><img src="iomanoide.png" alt="project-image"></p>
 
-<p id="description">Iomanoid's purpose is to be the most trusted NFT directory in Latin America. We want to increase the visibility of Cryptoart or Digital Art, helping emerging and established artists with tools that allow them, from becoming visible to being able to create their own Web3 community. On the other hand, we want to help collectors to, for example, discover new talents and connect directly with them. But that's not all, we are also going to implement functionalities to Iomanoid that allow its users to learn about the technology behind NFTs and the Crypto ecosystem, Blockchain.</p>
+<p id="description">Iomanoid's purpose is to be the most trusted NFT directory in the world.. We want to increase the visibility of Cryptoart or Digital Art, helping emerging and established artists with tools that allow them, from becoming visible to being able to create their own Web3 community. On the other hand, we want to help collectors to, for example, discover new talents and connect directly with them. But that's not all, we are also going to implement functionalities to Iomanoid that allow its users to learn about the technology behind NFTs and the Crypto ecosystem, Blockchain.</p>
 
 ## Features
 
