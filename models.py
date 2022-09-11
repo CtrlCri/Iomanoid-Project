@@ -77,9 +77,12 @@ class ValidationCode(Base):
     __tablename__ = "validation_codes"
 
     code = Column(String(36), primary_key=True)
-    #user_id = Column(Integer(), ForeignKey("users.user_id") nullable=True)
+    project_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
+
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
+
+    project = relationship("Project")
 
     __table_args__= {
         'mysql_engine':'InnoDB'
@@ -89,9 +92,12 @@ class PremiumCode(Base):
     __tablename__ = "premium_codes"
 
     code = Column(String(36), primary_key=True)
-    #user_id = Column(Integer(), ForeignKey("users.user_id") nullable=True)
+    user_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
+    
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
+
+    user = relationship("User")
 
     __table_args__= {
         'mysql_engine':'InnoDB'
