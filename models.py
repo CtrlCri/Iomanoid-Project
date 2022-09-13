@@ -1,5 +1,6 @@
 # Python
 from datetime import datetime
+from enum import unique
 
 # SQLAlchemy
 from sqlalchemy import ForeignKey, DateTime, Integer, String, Boolean, Column, Enum
@@ -21,6 +22,7 @@ class User(Base):
     updated_at = Column(DateTime)
 
     projects = relationship("Project", back_populates="owner")
+    code = relationship("PremiumCode", back_populates="user")
     
     __table_args__= {
         'mysql_engine':'InnoDB'
@@ -54,6 +56,7 @@ class Project(Base):
     updated_at = Column(DateTime, nullable=True) 
     
     owner = relationship("User", back_populates="projects")
+    code = relationship("ValidationCode", back_populates="project")
 
     __table_args__= {
         'mysql_engine':'InnoDB'
@@ -78,13 +81,13 @@ class ValidationCode(Base):
     __tablename__ = "validation_codes"
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
-    code = Column(String(36), primary_key=True)
-    project_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
+    code = Column(String(36), unique=True)
+    project_id = Column(Integer(), ForeignKey("projects.project_id"), nullable=True)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
 
-    project = relationship("Project")
+    project = relationship("Project", back_populates="code")
 
     __table_args__= {
         'mysql_engine':'InnoDB'
@@ -94,13 +97,13 @@ class PremiumCode(Base):
     __tablename__ = "premium_codes"
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
-    code = Column(String(36), primary_key=True)
+    code = Column(String(36), unique=True)
     user_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
     
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
 
-    user = relationship("User")
+    user = relationship("User", back_populates="code")
 
     __table_args__= {
         'mysql_engine':'InnoDB'

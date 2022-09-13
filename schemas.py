@@ -64,16 +64,21 @@ class ProjectUpdate(BaseModel):
 
 # User
 class UserBase(BaseModel):
-    user_id: Optional[int]
+    email: EmailStr = Field(...)
+
+class UserLogin(UserBase):
+    password: str = Field(...)
+
+class UserRegister(UserLogin):
     user_name: str = Field(
         ...,
         min_length=5,
         max_length=45
     )
-    email: EmailStr = Field(...)
-    password: str = Field(...)
+    class Config:
+        orm_mode = True
 
-class User(UserBase):
+class UserFull(UserRegister):
     is_active: bool = Field(...) 
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)  
@@ -83,15 +88,6 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
-class SignUp(BaseModel):
-    user_name: str = Field(
-        ...,
-        min_length=5,
-        max_length=45
-    )
-    email: EmailStr = Field(...)
-    password: str = Field(...)
-
 class UserUpdate(BaseModel):
     user_name: str = Field(
         ...,
@@ -99,9 +95,6 @@ class UserUpdate(BaseModel):
         max_length=45
     )
     email: EmailStr = Field(...)
-
-class UserLogin(UserBase):
-    password: str = Field(...)
 
 class Reply(BaseModel):
     message: str
@@ -116,8 +109,12 @@ class Subscriber(BaseModel):
 class ValidationCode(BaseModel):
     code: UUID = Field(...)
     enabled: bool = Field(default=False)
+    class Config:
+        orm_mode = True
 
 # PremiumCode
 class PremiumCode(BaseModel):
     code: UUID = Field(...)
     enabled: bool = Field(default=False)
+    class Config:
+        orm_mode = True

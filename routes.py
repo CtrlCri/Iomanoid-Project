@@ -22,7 +22,7 @@ from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
 from models import Subscriber as SubscriberModel
-from schemas import User as UserSchema, SignUp, UserUpdate
+from schemas import UserFull as UserSchema, UserRegister, UserUpdate
 from schemas import Project as ProjectSchema, ProjectUpdate
 from schemas import Subscriber as SubscriberSchema
 from schemas import Reply as SchemaReply
@@ -64,7 +64,18 @@ def get_users(db: Session=Depends(get_db)):
     summary="Register a User",
     tags=["Users"]
 )
-def signup(db: Session=Depends(get_db), user: SignUp=Body(...)):
+def signup(db: Session=Depends(get_db), user: UserRegister=Body(...)):
+    """
+    Signup
+
+    This path operation register a user in the app
+
+    Parameters: 
+        - 
+    
+    Returns a json with the basic user information: 
+        - 
+    """
     hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
     new_user = UserModel(
         user_name = user.user_name,
