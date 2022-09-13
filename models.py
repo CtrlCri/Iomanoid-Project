@@ -77,6 +77,7 @@ class Subscriber(Base):
 class ValidationCode(Base):
     __tablename__ = "validation_codes"
 
+    id = Column(Integer(), primary_key=True, autoincrement=True)
     code = Column(String(36), primary_key=True)
     project_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
 
@@ -92,6 +93,7 @@ class ValidationCode(Base):
 class PremiumCode(Base):
     __tablename__ = "premium_codes"
 
+    id = Column(Integer(), primary_key=True, autoincrement=True)
     code = Column(String(36), primary_key=True)
     user_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
     
