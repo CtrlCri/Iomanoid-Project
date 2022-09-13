@@ -1,6 +1,7 @@
 # Python
 from typing import List
 from os import getcwd # for images
+from datetime import datetime
 
 # FastAPI
 from fastapi import APIRouter
@@ -114,6 +115,7 @@ def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate
     data_user = db.query(UserModel).filter_by(user_id=id).first()
     data_user.user_name = user.user_name,
     data_user.email = user.email
+    data_user.updated_at = datetime.now()
     db.commit()
     db.refresh(data_user)
     return data_user
