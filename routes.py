@@ -72,10 +72,13 @@ def signup(db: Session=Depends(get_db), user: UserRegister=Body(...)):
     This path operation register a user in the app
 
     Parameters: 
-        - 
+        - Request body parameter
+            - user: UserRegister
     
     Returns a json with the basic user information: 
-        - 
+        - user_name: Str
+        - email: EmailStr
+        - projects: List
     """
     hash_password = generate_password_hash(user.password, method='pbkdf2:sha256')
     new_user = UserModel(

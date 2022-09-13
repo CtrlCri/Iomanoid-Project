@@ -78,7 +78,12 @@ class UserRegister(UserLogin):
     class Config:
         orm_mode = True
 
-class UserFull(UserRegister):
+class UserFull(UserBase):
+    user_name: str = Field(
+        ...,
+        min_length=5,
+        max_length=45
+    )
     is_active: bool = Field(...) 
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)  
