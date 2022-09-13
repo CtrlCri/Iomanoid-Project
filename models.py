@@ -49,6 +49,7 @@ class Project(Base):
     website = Column(String(70), nullable=True)
     source = Column(String(70), nullable=True)
 
+    tags = Column(String(70), nullable=True)
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, nullable=True) 
     

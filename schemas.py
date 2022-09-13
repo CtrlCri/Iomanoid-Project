@@ -42,7 +42,6 @@ class Project(BaseModel):
     marketplace_url: Optional[HttpUrl] = Field(default=None ,example="https://www.opensea.com/collection/iomanoid-genesis")
     collection_size: int = Field(..., gt=0, lt=22223, example=1119)
 
-    #image_file: Optional[UploadFile] = File(default=None)
     release_date: Optional[datetime] = Field(default=None) # NFT drop
     
     instagram: Optional[HttpUrl] = Field(default=None ,example="https://instagram.com/iomanoid_nfts")
@@ -52,7 +51,7 @@ class Project(BaseModel):
     source: Optional[HttpUrl] = Field(default=None ,example="https://www.github.com/armycrih")
     
 
-    #tags: Optional[Tags] = Field()
+    tags: Optional[Tags] = Field(default=None, example="Collectible")
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)
 
