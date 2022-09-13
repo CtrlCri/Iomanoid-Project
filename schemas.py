@@ -84,10 +84,6 @@ class UserFull(UserBase):
         min_length=5,
         max_length=45
     )
-    is_active: bool = Field(...) 
-    created_at: datetime = Field(default=datetime.now())
-    updated_at: Optional[datetime] = Field(default=None)  
-    
     projects: List[Project] = []
 
     class Config:
