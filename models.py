@@ -82,6 +82,7 @@ class ValidationCode(Base):
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
     code = Column(String(36), unique=True)
+    enabled = Column(Boolean, default=True)
     project_id = Column(Integer(), ForeignKey("projects.project_id"), nullable=True)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now())
@@ -98,6 +99,7 @@ class PremiumCode(Base):
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
     code = Column(String(36), unique=True)
+    enabled = Column(Boolean, default=True)
     user_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
     
     created_at = Column(DateTime, nullable=False, default=datetime.now())
