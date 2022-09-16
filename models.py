@@ -17,7 +17,7 @@ class User(Base):
     user_name = Column(String(45), nullable=False, unique=True)
     email = Column(String(45), nullable=False, unique=True)
     password = Column(String(300))
-    is_active = Column(Boolean, default=True)
+    enabled = Column(Boolean, default=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
 
@@ -68,7 +68,7 @@ class Subscriber(Base):
 
     id = Column(Integer(), primary_key=True, autoincrement=True)
     email = Column(String(45), nullable=False, unique=True)
-    is_active = Column(Boolean, default=True)
+    enabled = Column(Boolean, default=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
 
