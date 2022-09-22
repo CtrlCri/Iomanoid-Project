@@ -102,6 +102,20 @@ def signup(db: Session=Depends(get_db), user: UserRegister=Body(...)):
     tags=["Users"]
 )
 def read_data(id: int=Path(...), db: Session=Depends(get_db)): 
+    """
+    Read_Data
+
+    This path operation show a user in the app
+
+    Parameters: 
+        - Request path parameter
+            - id: int
+    
+    Returns a json with the basic user information: 
+        - user_name: Str
+        - email: EmailStr
+        - projects: List
+    """
     user = db.query(UserModel).filter_by(user_id=id).first()
     return user  
 
