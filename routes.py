@@ -128,7 +128,23 @@ def read_data(id: int=Path(...), db: Session=Depends(get_db)):
     summary="Update a User",
     tags=["Users"]
 )
-def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)): 
+def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)):
+    """
+    Update_User
+
+    This path operation update a user in the app
+
+    Parameters: 
+        - Request path parameter
+            - id: int
+        - Request body parameter
+            - user: UserUpdate
+    
+    Returns a json with the basic updated user information: 
+        - user_name: Str
+        - email: EmailStr
+        - projects: List
+    """ 
     data_user = db.query(UserModel).filter_by(user_id=id).first()
     data_user.user_name = user.user_name,
     data_user.email = user.email
