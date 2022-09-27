@@ -23,7 +23,7 @@ from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
 from models import Subscriber as SubscriberModel
-from schemas import UserFull as UserSchema, UserRegister, UserUpdate
+from schemas import User as UserSchema, UserRegister, UserBase
 from schemas import Project as ProjectSchema, ProjectUpdate
 from schemas import Subscriber as SubscriberSchema
 from schemas import Reply as SchemaReply
@@ -101,9 +101,9 @@ def signup(db: Session=Depends(get_db), user: UserRegister=Body(...)):
     summary="Show a User",
     tags=["Users"]
 )
-def read_data(id: int=Path(...), db: Session=Depends(get_db)): 
+def get_user(db: Session=Depends(get_db), user_name: str=Path(...)): 
     """
-    Read_Data
+    Get_User
 
     This path operation show a user in the app
 
@@ -116,7 +116,7 @@ def read_data(id: int=Path(...), db: Session=Depends(get_db)):
         - email: EmailStr
         - projects: List
     """
-    user = db.query(UserModel).filter_by(user_id=id).first()
+    user = db.query(UserModel).filter_by(user_name=user_name).first()
     return user  
 
 
@@ -128,7 +128,7 @@ def read_data(id: int=Path(...), db: Session=Depends(get_db)):
     summary="Update a User",
     tags=["Users"]
 )
-def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate=Body(...)):
+def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserBase=Body(...)):
     """
     Update_User
 

@@ -64,38 +64,23 @@ class ProjectUpdate(BaseModel):
 
 # User
 class UserBase(BaseModel):
-    email: EmailStr = Field(...)
-
-class UserLogin(UserBase):
-    password: str = Field(...)
-
-class UserRegister(UserLogin):
     user_name: str = Field(
         ...,
         min_length=5,
         max_length=45
     )
+    email: EmailStr = Field(...)
+
+class UserRegister(UserBase):
+    password: str = Field(...)
     class Config:
         orm_mode = True
 
-class UserFull(UserBase):
-    user_name: str = Field(
-        ...,
-        min_length=5,
-        max_length=45
-    )
+class User(UserBase):
     projects: List[Project] = []
 
     class Config:
         orm_mode = True
-
-class UserUpdate(BaseModel):
-    user_name: str = Field(
-        ...,
-        min_length=5,
-        max_length=45
-    )
-    email: EmailStr = Field(...)
 
 class Reply(BaseModel):
     message: str
