@@ -161,7 +161,19 @@ def update_user(db: Session=Depends(get_db), id: int=Path(...), user: UserUpdate
     summary="Delete a User",
     tags=["Users"]
 )   
-def delete_user(id: int=Path(...), db: Session=Depends(get_db)): 
+def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
+    """
+    Delete_User
+
+    This path operation delete a user in the app
+
+    Parameters: 
+        - Request path parameter
+            - id: int
+    
+    Returns a message: 
+        - message: SchemaReply
+    """  
     user = db.query(UserModel).filter_by(user_id=id).first()
     db.delete(user)
     db.commit()
