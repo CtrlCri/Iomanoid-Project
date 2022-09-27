@@ -95,7 +95,7 @@ def signup(db: Session=Depends(get_db), user: UserRegister=Body(...)):
 
 ### Show a user
 @user.get(
-    path="/users/{id}",
+    path="/users/{user_name}",
     response_model=UserSchema,
     status_code=status.HTTP_200_OK,
     summary="Show a User",
@@ -109,7 +109,7 @@ def read_data(id: int=Path(...), db: Session=Depends(get_db)):
 
     Parameters: 
         - Request path parameter
-            - id: int
+            - user_name: str
     
     Returns a json with the basic user information: 
         - user_name: Str
@@ -179,17 +179,8 @@ def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
     db.commit()
     message = SchemaReply(message="Successeful deleted")
     return message
-### Login a user
-#@user.post(
-#    path="/login",
-#    response_model=User,
-#    status_code=status.HTTP_200_OK,
-#    summary="Login a User",
-#    tags=["Users"]
-#)
-# def login(): 
-#    pass
 
+### Login
 
 
 ## Projects
