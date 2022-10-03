@@ -54,7 +54,20 @@ def get_db():
     summary="Show all users",
     tags=["Users"]
 )
-def get_users(db: Session=Depends(get_db)): 
+def get_users(db: Session=Depends(get_db)):
+    """
+    Get_Users
+
+    This path operation show all users in the app
+
+    Parameters: 
+        - No
+    
+    Returns a json with the basic users information: 
+        - user_name: Str
+        - email: EmailStr
+        - projects: List
+    """
     return db.query(UserModel).all()
 
 ### Register a user
