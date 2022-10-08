@@ -14,7 +14,7 @@ from fastapi.responses import JSONResponse
 # SQLAlchemy
 from sqlalchemy.orm import Session
 
-#
+# Others
 from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 
