@@ -206,7 +206,20 @@ def delete_user(id: int=Path(...), db: Session=Depends(get_db)):
     summary="Show all projects",
     tags=["Projects"]
 )
-def get_users(db: Session=Depends(get_db)): 
+def get_projects(db: Session=Depends(get_db)):
+    """
+    Get_Projects
+
+    This path operation show all projects in the app
+
+    Parameters: 
+        - No
+    
+    Returns a json with the basic users information: 
+        - var1: Str
+        - var2: EmailStr
+        - var3: List
+    """ 
     return db.query(ProjectModel).all()
 
 ### Post a project
