@@ -231,6 +231,18 @@ def get_projects(db: Session=Depends(get_db)):
     tags=["Projects"]
 )
 def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
+    """
+    Post_project
+
+    This path operation publish a project in the app
+
+    Parameters: 
+        - Request body parameter
+            - project: ProjectSchema
+    
+    Returns a json with the basic project information: 
+        - 
+    """
     new_project = ProjectModel(
         project_name = project.project_name,
         description = project.description,
