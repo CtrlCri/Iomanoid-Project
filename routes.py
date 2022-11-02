@@ -305,7 +305,19 @@ async def project_image(backgraund_task: BackgroundTasks, image: UploadFile = Fi
     summary="Update a Project",
     tags=["Projects"]
 )
-def update_project(db: Session=Depends(get_db), id: int=Path(...), project: ProjectUpdate=Body(...)): 
+def update_project(db: Session=Depends(get_db), id: int=Path(...), project: ProjectUpdate=Body(...)):
+    """
+    Update_Project
+    This path operation update a project in the app
+    Parameters: 
+        - Request path parameter
+            - id: int
+        - Request body parameter
+            - project: ProjectUpdate
+    
+    Returns a json with the basic updated user information: 
+        - 
+    """ 
     data_project = db.query(ProjectModel).filter_by(project_id=id).first()
     data_project.project_name = project.project_name,
     data_project.email = project.description
