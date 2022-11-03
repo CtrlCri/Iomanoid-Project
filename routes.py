@@ -333,7 +333,17 @@ def update_project(db: Session=Depends(get_db), id: int=Path(...), project: Proj
     summary="Delete a Project",
     tags=["Projects"]
 )   
-def delete_project(id: int=Path(...), db: Session=Depends(get_db)): 
+def delete_project(id: int=Path(...), db: Session=Depends(get_db)):
+     """
+    Delete_Project
+    This path operation delete a project in the app
+    Parameters: 
+        - Request path parameter
+            - id: int
+    
+    Returns a message: 
+        - message: SchemaReply
+    """  
     project = db.query(ProjectModel).filter_by(project_id=id).first()
     db.delete(project)
     db.commit()
