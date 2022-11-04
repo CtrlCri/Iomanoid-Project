@@ -361,6 +361,16 @@ def delete_project(id: int=Path(...), db: Session=Depends(get_db)):
     tags=["Subscribers"]
 )
 def subscribers_signup(db: Session=Depends(get_db), subscriber: SubscriberSchema=Body(...)):
+    """
+    Signup
+    This path operation register a subscriber in the app
+    Parameters: 
+        - Request body parameter
+            - subscriber: SusbcriberSchema
+    
+    Returns a json with the basic user information: 
+        - email: EmailStr
+    """
     new_subscriber = SubscriberModel(
         email = subscriber.email
     )
