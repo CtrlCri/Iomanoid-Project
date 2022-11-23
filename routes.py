@@ -18,16 +18,18 @@ from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
 
-# Local
+# Local models
 from config.db import SessionLocal,Base, engine
 from models import User as UserModel
 from models import Project as ProjectModel
 from models import Subscriber as SubscriberModel
+# Local schemas
 from schemas import User as UserSchema, UserRegister, UserBase
 from schemas import Project as ProjectSchema, ProjectUpdate
 from schemas import Subscriber as SubscriberSchema
 from schemas import Reply as SchemaReply
 
+#Base.metadata.drop_all(bind=engine) 
 Base.metadata.create_all(bind=engine) 
 
 user = APIRouter()
@@ -256,9 +258,6 @@ def post_project(db: Session=Depends(get_db), project: ProjectSchema=Body(...)):
         twitter = project.twitter,
         discord = project.discord,
         website = project.website,
-        source = project.source,
-        created_at = project.created_at,
-        updated_at = project.updated_at 
     )
     db.add(new_project)
     db.commit()

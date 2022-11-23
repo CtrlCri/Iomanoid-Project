@@ -23,11 +23,7 @@ class User(Base):
 
     projects = relationship("Project", back_populates="owner")
     code = relationship("PremiumCode", back_populates="user")
-    
-    __table_args__= {
-        'mysql_engine':'InnoDB'
-    }
-    
+       
     def __str__(self):
         return self.user_name
         
@@ -53,7 +49,6 @@ class Project(Base):
     twitter = Column(String(70), nullable=True)
     discord = Column(String(70), nullable=True)
     website = Column(String(70), nullable=True)
-    source = Column(String(70), nullable=True)
 
     tags = Column(String(70), nullable=True)
     created_at = Column(DateTime, default=datetime.now())

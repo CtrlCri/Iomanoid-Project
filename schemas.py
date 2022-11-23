@@ -31,7 +31,7 @@ class Tags(Enum):
     metaverse = "Metaverse"
 
 class Project(BaseModel):
-    project_id: Optional[int]
+    #project_id: Optional[int]
     project_name: str = Field(..., min_length=1, max_length=50, example="Iomis of Metaverse")
     
     description: str = Field(..., max_length=500, min_length=50)
@@ -48,12 +48,9 @@ class Project(BaseModel):
     twitter: Optional[HttpUrl] = Field(default=None ,example="https://twitter.com/iomanoid_nfts")
     discord: Optional[HttpUrl] = Field(default=None ,example="https://discord.com/")
     website: Optional[HttpUrl] = Field(default=None ,example="https://iomanoids.com")
-    source: Optional[HttpUrl] = Field(default=None ,example="https://www.github.com/armycrih")
     
 
     tags: Optional[Tags] = Field(default=None, example="Collectible")
-    created_at: datetime = Field(default=datetime.now())
-    updated_at: Optional[datetime] = Field(default=None)
 
     class Config:
         orm_mode = True
