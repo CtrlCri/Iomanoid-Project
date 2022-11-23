@@ -27,6 +27,10 @@ class User(Base):
     __table_args__= {
         'mysql_engine':'InnoDB'
     }
+    
+    def __str__(self):
+        return self.user_name
+        
 
 
 
@@ -61,6 +65,9 @@ class Project(Base):
     __table_args__= {
         'mysql_engine':'InnoDB'
     }
+    
+    def __str__(self):
+        return self.project_name
 
 
 class Subscriber(Base):

@@ -334,7 +334,7 @@ def update_project(db: Session=Depends(get_db), id: int=Path(...), project: Proj
     tags=["Projects"]
 )   
 def delete_project(id: int=Path(...), db: Session=Depends(get_db)):
-     """
+    """
     Delete_Project
     This path operation delete a project in the app
     Parameters: 
