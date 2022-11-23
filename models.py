@@ -42,8 +42,8 @@ class Project(Base):
     description = Column(String(450), nullable=False)
     owner_id = Column(Integer(), ForeignKey("users.user_id"), nullable=True)
 
-    blockchain = Column(Enum('Polygon', 'Ethereum', 'Solana', 'Otro'))
-    marketplace = Column(Enum('OpenSea', 'Rarible', 'Otro', 'En proceso'))
+    blockchain = Column(Enum('Polygon', 'Ethereum', 'Solana', 'Otro', name="blockchain"))
+    marketplace = Column(Enum('OpenSea', 'Rarible', 'Otro', 'En proceso', name="marketplace"))
     marketplace_url = Column(String(300), nullable=True)
     collection_size = Column(Integer(), nullable=False)
 
@@ -62,9 +62,6 @@ class Project(Base):
     owner = relationship("User", back_populates="projects")
     code = relationship("ValidationCode", back_populates="project")
 
-    __table_args__= {
-        'mysql_engine':'InnoDB'
-    }
     
     def __str__(self):
         return self.project_name
@@ -78,10 +75,6 @@ class Subscriber(Base):
     enabled = Column(Boolean, default=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime)
-
-    __table_args__= {
-        'mysql_engine':'InnoDB'
-    }
 
     
 class ValidationCode(Base):
@@ -97,9 +90,6 @@ class ValidationCode(Base):
 
     project = relationship("Project", back_populates="code")
 
-    __table_args__= {
-        'mysql_engine':'InnoDB'
-    }
 
 class PremiumCode(Base):
     __tablename__ = "premium_codes"
@@ -114,9 +104,6 @@ class PremiumCode(Base):
 
     user = relationship("User", back_populates="code")
 
-    __table_args__= {
-        'mysql_engine':'InnoDB'
-    }
 
 
 
