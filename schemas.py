@@ -2,7 +2,6 @@
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
-from uuid import UUID
 
 # Pydantic
 from pydantic import BaseModel, Field, EmailStr, HttpUrl
@@ -90,14 +89,14 @@ class Subscriber(BaseModel):
 
 # ValidationCode
 class ValidationCode(BaseModel):
-    code: UUID = Field(...)
+    code: str = Field(...)
     enabled: bool = Field(default=False)
     class Config:
         orm_mode = True
 
 # PremiumCode
 class PremiumCode(BaseModel):
-    code: UUID = Field(...)
+    code: str = Field(...)
     enabled: bool = Field(default=False)
     class Config:
         orm_mode = True
