@@ -88,4 +88,4 @@ Although a code host like GitHub may allow you to view and fork the code, this d
 
 ## Author
 
-Made with 💙 by [armycrih](https://twitter.com/armycrih)
+Made with 💙 by Cristian
